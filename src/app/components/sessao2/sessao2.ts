@@ -7,3 +7,4 @@ import { Component } from '@angular/core';
   styleUrl: './sessao2.css',
 })
 export class Sessao2 {}
+

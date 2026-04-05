@@ -4,10 +4,11 @@ import { Cabecalho } from './components/cabecalho/cabecalho';
 import { Rodape } from './components/rodape/rodape';
 import { EventosDisponiveis } from './components/eventos-disponiveis/eventos-disponiveis';
 import { Sessao6 } from './components/sessao6/sessao6';
+import { Sobre } from './components/sobre/sobre';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, Cabecalho, Rodape, Sessao6, EventosDisponiveis],
+  imports: [RouterOutlet, Cabecalho, Rodape, Sessao6, EventosDisponiveis, Sobre],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

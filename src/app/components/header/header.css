@@ -1,0 +1,22 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 8%;
+  background: #1a1a1a;
+  color: white;
+}
+
+.logo { font-size: 24px; font-weight: bold; }
+.logo span { color: #ff4d4d; } /* Cor de destaque */
+
+nav ul { display: flex; list-style: none; }
+nav ul li { margin-left: 30px; }
+nav ul li a { color: white; text-decoration: none; transition: 0.3s; }
+nav ul li a:hover { color: #ff4d4d; }
+
+.btn-contato {
+  background: #ff4d4d;
+  padding: 10px 20px;
+  border-radius: 5px;
+}

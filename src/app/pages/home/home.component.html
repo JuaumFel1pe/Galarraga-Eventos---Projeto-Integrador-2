@@ -1,0 +1,20 @@
+<div class="home-container">
+  <section class="hero">
+    <h1>Galarraga Eventos</h1>
+    <p>Seus eventos, nossa paixão!</p>
+  </section>
+
+  <section class="eventos-section">
+    <h2>Nossos Serviços</h2>
+    <div class="eventos-grid">
+      <div *ngFor="let evento of eventos" class="evento-card">
+        <img [src]="evento.imagem" [alt]="evento.titulo" class="evento-imagem">
+        <div class="evento-content">
+          <h3>{{ evento.titulo }}</h3>
+          <p>{{ evento.descricao }}</p>
+          <button class="btn-saiba-mais">Saiba Mais</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

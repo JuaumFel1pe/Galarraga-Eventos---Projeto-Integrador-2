@@ -1,0 +1,78 @@
+.login {
+    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
+                      url('../../../../public/restaurantegalarraga.jpeg');
+    background-size: cover;
+    background-position: center;
+    min-height: 100vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login-card {
+    background-color: #EBEBEB; /* Cinza claro do fundo do card */
+    padding: 40px 50px;
+    border-radius: 25px; /* Bordas bem arredondadas */
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+h1 {
+    color: #BD82E0; /* Roxo suave do título */
+    font-size: 22px;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #CCC;
+    border-radius: 8px;
+    background-color: #F2F2F2;
+    box-sizing: border-box; /* Garante que o padding não quebre a largura */
+    outline: none;
+}
+
+input::placeholder {
+    color: #999;
+}
+
+.btn-continuar {
+    width: 100%;
+    padding: 15px;
+    background-color: #E4D5EE; /* Lilás bem clarinho */
+    border: 2px solid #BD82E0; /* Borda roxa */
+    border-radius: 12px;
+    color: #9D64C4;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+
+.btn-continuar:hover {
+    background-color: #d1b8e6;
+}
+
+#separator {
+    height: 1px;
+    background-color: #CCC;
+    margin: 30px 0 20px 0;
+}
+
+.footer-text {
+    font-size: 14px;
+    color: #333;
+}
+
+.footer-text a {
+    color: #5D9CEC; /* Azul do link 'Registre-se' */
+    text-decoration: none;
+    font-weight: 500;
+}

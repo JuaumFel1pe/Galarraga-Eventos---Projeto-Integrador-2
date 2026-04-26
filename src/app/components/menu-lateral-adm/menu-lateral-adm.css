@@ -1,0 +1,52 @@
+/* sidebar.component.scss */
+.sidebar {
+  width: 260px;
+  height: 91.2vh; /* Ocupa toda a altura da tela */
+  background-color: #2a2333; /* Cor de fundo escura do print */
+  position: fixed; /* Fixa na esquerda */
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Joga a central de ajuda para o final */
+  padding: 30px 15px;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.menu-top, .menu-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  color: #a09da6; /* Cor do texto inativo */
+  text-decoration: none;
+  font-family: sans-serif;
+  font-size: 14px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  /* ESTADO SELECIONADO (O routerLinkActive vai injetar essa classe) */
+  &.active {
+    color: #ffffff;
+    background-color: transparent;
+    border: 1px solid #d977ff; /* Borda neon roxa */
+    box-shadow: 0 0 10px rgba(217, 119, 255, 0.2); /* Efeito de brilho */
+  }
+
+  i {
+    font-size: 18px;
+  }
+}

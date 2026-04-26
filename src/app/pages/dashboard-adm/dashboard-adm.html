@@ -1,2 +1,40 @@
-<p>dashboard-adm works!</p>
-<app-dashboard-events></app-dashboard-events>
+<app-cabecalho-adm/>
+<div class="dashboard-container">
+  <app-menu-lateral-adm/>
+
+  <h1>PAINEL DO ADMINISTRADOR</h1>
+  <div class="cards-topo">
+    <div class="info-card">
+      <div class="info-texto">
+        <span>Receita bruta</span>
+        <h2>R$ 45.000,00</h2>
+      </div>
+      <div class="icone-card">↗</div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-texto">
+        <span>Ingressos vendidos</span>
+        <h2>1.250</h2>
+      </div>
+      <div class="icone-card">🎟</div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-texto">
+        <span>Eventos ativo</span>
+        <h2>5</h2>
+      </div>
+      <div class="icone-card">📅</div>
+    </div>
+  </div>
+
+  <div class="grafico-card">
+    <canvas
+      baseChart
+      [data]="graficoGastosData"
+      [type]="graficoGastosTipo"
+      [options]="graficoOptions">
+    </canvas>
+  </div>
+</div>

@@ -1,0 +1,161 @@
+/* Variáveis nativas do CSS baseadas na imagem */
+:root {
+  --neon-purple: #c05ced;
+  --bg-dark: #000000;
+  --bg-light: #fcf9f7;
+  --text-dark: #1a1a1a;
+}
+
+.event-page {
+  font-family: sans-serif;
+}
+
+/* --- HEADER ESCURO --- */
+.event-header {
+  background-color: #000000;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 60px 80px;
+  gap: 40px;
+}
+
+/* Responsividade para telas menores */
+@media (max-width: 800px) {
+  .event-header {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+}
+
+.header-info {
+  flex: 1;
+}
+
+.header-info h1 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+.header-info .event-details {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.header-info .event-details li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #e0e0e0;
+  font-size: 14px;
+}
+
+.header-info .event-details li i {
+  color: #c05ced;
+  font-size: 18px;
+}
+
+.header-image {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.header-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 40px;
+  object-fit: cover;
+}
+
+/* --- CONTEÚDO CLARO --- */
+.event-content {
+  background-color: #fcf9f7;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 60px 80px;
+  gap: 60px;
+  min-height: 50vh;
+}
+
+@media (max-width: 800px) {
+  .event-content {
+    flex-direction: column;
+    padding: 40px 20px;
+  }
+}
+
+.description {
+  flex: 2;
+  color: #1a1a1a;
+}
+
+.description h2 {
+  font-size: 24px;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+.description p {
+  margin-bottom: 16px;
+  line-height: 1.6;
+  font-size: 15px;
+  color: #333333;
+}
+
+/* --- CARD DE INGRESSOS --- */
+.ticket-sidebar {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ticket-card {
+  width: 100%;
+  max-width: 320px;
+  background-color: transparent;
+  border: 1px solid #c05ced;
+  border-radius: 24px;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 15px rgba(192, 92, 237, 0.05);
+}
+
+.ticket-card p {
+  color: #c05ced;
+  font-size: 15px;
+  margin: 0;
+}
+
+.ticket-card p strong {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.ticket-card .btn-buy {
+  background-color: transparent;
+  color: #c05ced;
+  border: 1px solid #c05ced;
+  border-radius: 30px;
+  padding: 10px 24px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.ticket-card .btn-buy:hover {
+  background-color: #c05ced;
+  color: #ffffff;
+}

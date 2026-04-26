@@ -1,4 +1,133 @@
-<app-cabecalho-adm/>
-<section>
-    <app-menu-lateral-adm/>
-</section>
+<app-cabecalho-adm />
+
+<div class="admin-layout">
+  <aside class="sidebar">
+    <app-menu-lateral-adm />
+  </aside>
+
+  <main class="admin-content">
+
+    <h1 class="titulo">EVENTOS</h1>
+
+    <section class="filtros-card">
+
+      <div class="linha-filtros">
+        <div class="campo grande">
+          <label>Nome do evento</label>
+          <input type="text" [(ngModel)]="filtroNome">
+        </div>
+
+        <div class="campo pequeno">
+          <label>Preço</label>
+          <input type="number" [(ngModel)]="filtroPreco">
+        </div>
+      </div>
+
+      <div class="linha-filtros">
+        <div class="campo medio">
+          <label>Data</label>
+          <input type="text" placeholder="dd/mm/aaaa" [(ngModel)]="filtroData">
+        </div>
+
+        <div class="toggle-area">
+          <span>Eventos inativos</span>
+
+          <button
+            type="button"
+            class="toggle"
+            [class.ativo]="mostrarInativos"
+            (click)="toggleInativos()">
+            <span></span>
+          </button>
+        </div>
+      </div>
+
+      <div class="acoes-filtro">
+        <button class="btn-outline" (click)="filtrar()">
+          Filtrar
+        </button>
+      </div>
+
+    </section>
+
+    <section class="tabela-card">
+
+      <div class="tabela-header">
+        <div>Nome do evento</div>
+        <div>Data</div>
+        <div>Preço</div>
+        <div>Ingressos Restantes</div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <div
+        class="tabela-row"
+        *ngFor="let evento of eventosFiltrados; trackBy: trackById">
+
+        <div class="cell">
+          <ng-container *ngIf="!evento.editing; else editNome">
+            {{ evento.nome || 'Novo evento' }}
+          </ng-container>
+
+          <ng-template #editNome>
+            <input class="table-input" [(ngModel)]="evento.nome">
+          </ng-template>
+        </div>
+
+        <div class="cell">
+          <ng-container *ngIf="!evento.editing; else editData">
+            {{ evento.data }}
+          </ng-container>
+
+          <ng-template #editData>
+            <input class="table-input" [(ngModel)]="evento.data">
+          </ng-template>
+        </div>
+
+        <div class="cell">
+          <ng-container *ngIf="!evento.editing; else editPreco">
+            {{ formatarPreco(evento.preco) }}
+          </ng-container>
+
+          <ng-template #editPreco>
+            <input class="table-input" type="number" [(ngModel)]="evento.preco">
+          </ng-template>
+        </div>
+
+        <div class="cell">
+          <ng-container *ngIf="!evento.editing; else editIngressos">
+            {{ evento.ingressos }}
+          </ng-container>
+
+          <ng-template #editIngressos>
+            <input class="table-input" type="number" [(ngModel)]="evento.ingressos">
+          </ng-template>
+        </div>
+
+        <div class="cell btn-cell">
+          <button
+            class="btn-editar"
+            (click)="evento.editing ? salvar(evento) : editar(evento)">
+            {{ evento.editing ? 'Salvar' : 'Editar' }}
+          </button>
+        </div>
+
+        <div class="cell btn-cell">
+          <button class="btn-excluir" (click)="excluir(evento.id)">
+            Excluir
+          </button>
+        </div>
+
+      </div>
+
+      <div class="rodape">
+        <button class="btn-outline" (click)="adicionarEvento()">
+          Adicionar evento
+        </button>
+      </div>
+
+    </section>
+
+  </main>
+</div>

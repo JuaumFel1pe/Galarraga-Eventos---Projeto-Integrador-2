@@ -22,7 +22,7 @@ interface Evento {
 })
 
 export class MeusEventos {
-    ultimoId = 4;
+  ultimoId = 4;
 
   filtroNome = '';
   filtroData = '';
@@ -84,7 +84,6 @@ export class MeusEventos {
 
   toggleInativos() {
     this.mostrarInativos = !this.mostrarInativos;
-    this.filtrar();
   }
 
   editar(evento: Evento) {

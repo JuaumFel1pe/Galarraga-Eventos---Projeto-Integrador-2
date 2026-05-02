@@ -132,6 +132,10 @@
   box-shadow: 0 4px 15px rgba(192, 92, 237, 0.05);
 }
 
+.ticket-card img{
+  width: 60%;
+}
+
 .ticket-card p {
   color: #c05ced;
   font-size: 15px;

@@ -1,4 +1,55 @@
 <app-cabecalho-adm/>
-<section>
-    <app-menu-lateral-adm/>
+<section class="vendas-container">
+    <aside class="sidebar">
+        <app-menu-lateral-adm />
+    </aside>
+
+  <h1 class="titulo-vazia">Vendas</h1>
+
+  <div class="tabela-wrapper">
+    <table class="tabela-vendas">
+      <thead>
+        <tr>
+          <th>ID do Pedido</th>
+          <th>Nome do Cliente</th>
+          <th>Ingresso</th>
+          <th>Status</th>
+          <th>Data</th>
+          <th>Valor</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (venda of vendas; track venda.id) {
+          <tr>
+            <td>{{ venda.id }}</td>
+            <td>{{ venda.cliente }}</td>
+            <td>{{ venda.ingresso }}</td>
+            <td>{{ venda.status }}</td>
+            <td>{{ venda.data }}</td>
+            <td>{{ formatarPreco(venda.valor) }}</td>
+            <td class="celula-acao">
+              
+              @if (venda.status === 'Pago') {
+                <button class="btn-reenviar" (click)="reenviar(venda.id)">
+                  Reenviar
+                </button>
+              }
+
+              @if (venda.status === 'Pendente') {
+                <button class="btn-cancelar" (click)="cancelar(venda.id)">
+                  Cancelar
+                </button>
+              }
+
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" style="padding: 20px;">Nenhuma venda encontrada no momento.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 </section>

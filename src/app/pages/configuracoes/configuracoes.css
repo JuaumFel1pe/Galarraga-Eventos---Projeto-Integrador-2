@@ -3,13 +3,102 @@
   box-sizing: border-box;
 }
 
-section {
+.config-container {
+  flex-grow: 1;
+  margin-left: 260px;
   background-color: #0d0b14;
-  font-family: Arial, Helvetica, sans-serif;
-  color: white;
-
-  margin-left: 260px; /* Mesma largura da sidebar */
-  padding: 30px;
+  color: #ffffff;
+  padding: 40px;
   min-height: 92vh;
   max-width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Reaproveitando o estilo do título vazado da tela de Vendas */
+.titulo-vazia {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: transparent;
+  -webkit-text-stroke: 1.5px #ffffff;
+  margin-bottom: 50px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.form-wrapper {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+
+/* Estilo das caixas com brilho roxo */
+.card-neon {
+  background-color: #030005; /* Fundo levemente diferenciado para contraste, opcional */
+  border: 2px solid #b24bf3; /* Tom de roxo neon */
+  border-radius: 12px;
+  padding: 30px 40px;
+  /* Efeito glow externo e interno na borda */
+  box-shadow: 0 0 20px rgba(178, 75, 243, 0.4), 
+              inset 0 0 10px rgba(178, 75, 243, 0.1);
+}
+
+.card-neon h2 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 25px;
+  color: #ffffff;
+}
+
+/* Alinhamento de cada linha do formulário */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  width: 130px; /* Largura fixa para deixar todos os inputs alinhados na mesma coluna */
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Estilização dos Inputs (Pílulas Cinzas) */
+.input-gray {
+  background-color: #a3a3a3;
+  border: none;
+  border-radius: 20px; /* Bordas arredondadas */
+  padding: 8px 16px;
+  font-size: 0.95rem;
+  color: #222222;
+  outline: none;
+  transition: background-color 0.2s ease;
+}
+
+.input-gray::placeholder {
+  color: #555555;
+}
+
+.input-gray:focus {
+  background-color: #c4c4c4; /* Clareia um pouco ao clicar */
+}
+
+/* Tamanhos dos inputs */
+.input-long {
+  flex-grow: 1; /* Faz o input esticar até o final do card */
+}
+
+.input-short {
+  width: 250px; /* Mantém o telefone menor */
 }

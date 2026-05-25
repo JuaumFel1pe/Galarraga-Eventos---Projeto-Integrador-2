@@ -1,0 +1,78 @@
+{
+  "login": [
+    {
+      "id": 1,
+      "email": "adm@admin.com",
+      "senha": "admin"
+    }
+  ],
+  "eventos":[
+    {
+        "id": 1,
+        "nome": "Festa de fim de ano",
+        "endereco": "Rua fixo, 12",
+        "datahora": "2022-10-31T09:00:00.594Z",
+        "qtd": 15,
+        "preco": 150.00,
+        "inativo": false,
+        "descricao": "lorem ipsum",
+        "destaque": true
+    },
+    {
+        "id": 2,
+        "nome": "Jantar Beneficiente",
+        "endereco": "Rua fixo, 12",
+        "datahora": "2022-10-31T09:00:00.594Z",
+        "qtd": 15,
+        "preco": 150.00,
+        "inativo": false,
+        "descricao": "lorem ipsum",
+        "destaque": true
+    },
+    {
+        "id": 3,
+        "nome": "Laureano El miedo",
+        "endereco": "Rua fixo, 12",
+        "datahora": "2022-10-31T09:00:00.594Z",
+        "qtd": 15,
+        "preco": 150.00,
+        "inativo": false,
+        "descricao": "lorem ipsum",
+        "destaque": true
+    }
+  ],
+  "vendas":[
+    {
+        "id": 111555,
+        "cliente": "Joäo Pedro",
+        "ingresso": "Festa de fim de ano",
+        "status": "Pago",
+        "data": "2022-11-20",
+        "valor": 125.00
+    },
+    {
+        "id": 122451,
+        "cliente": "Rogério Santos",
+        "ingresso": "Jantar Beneficiente",
+        "status": "Pendente",
+        "data": "2022-11-20",
+        "valor": 280.00
+    },
+    {
+        "id": 1776644,
+        "cliente": "Júlia Almeida",
+        "ingresso": "Laureano El miedo",
+        "status": "Pendente",
+        "data": "2022-11-20",
+        "valor": 167.00
+    }
+  ],
+  "configuracoes": {
+    "endereco":"Rua fixo, 12",
+    "telefone": "11 9455-3333",
+    "facebook": "facebook.com/galarraga_eventos",
+    "instagram": "instagram.com/galarraga_eventos",
+    "linkedin": "linkedin.com/galarraga_eventos",
+    "twitter": "twitter.com/galarraga_eventos"
+  }
+}

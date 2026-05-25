@@ -1,15 +1,7 @@
 import { Component } from '@angular/core';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-
-type Venda = {
-  id: number;
-  cliente: string;
-  ingresso: string;
-  status: 'Pago' | 'Pendente';
-  data: string;
-  valor: number;
-}
+import { Venda, VendasService } from '../../services/vendas.service';
 
 @Component({
   selector: 'app-vendas',
@@ -18,11 +10,17 @@ type Venda = {
   styleUrl: './vendas.css',
 })
 export class Vendas {
-  vendas: Venda[] = [
-    {id: 111155, cliente: "João Pedro", ingresso: "Festa de fim de ano", status: "Pago", data: "05/01/2025", valor: 125.00},
-    { id: 122444, cliente: 'Rogério Santos', ingresso: 'Jantar Beneficiente', status: 'Pendente', data: '25/04/2025', valor: 280.00 },
-    { id: 124455, cliente: 'Júlia Almeida', ingresso: 'Laureano "El miedo"', status: 'Pendente', data: '17/03/2025', valor: 167.00 }
-  ]
+  constructor(private vendasApi: VendasService){}
+
+  vendas : Venda[] = []
+
+  ngOnInit(): void{
+    this.buscar()
+  }
+
+  buscar(){
+    this.vendasApi.consultar().subscribe(resp => this.vendas = resp)
+  }
 
   reenviar(id: number){
     console.log(`Reenviando pedido para o ID ${id}`)
@@ -30,8 +28,10 @@ export class Vendas {
   }
 
   cancelar(id: number){
-    console.log(`Cancelando o pedido ID ${id}`)
-    //Simulação
+    this.vendasApi.remover(id).subscribe(() => {
+      alert(`Cancelando o pedido ID ${id}`)
+      this.buscar()
+    })
   }
 
   formatarPreco(valor: number | null): string {

@@ -4,11 +4,17 @@
 
     <div class="login-card">
         <h1>Informe seus dados credenciais!</h1>
+
+        @if(mensagemErro){
+            <div class="error-msg">
+                {{mensagemErro}}
+            </div>
+        }
         
-        <input type="email" placeholder="Informe seu E-mail">
-        <input type="password" placeholder="Informe sua Senha">
+        <input type="email" placeholder="Informe seu E-mail" [(ngModel)]="email">
+        <input type="password" placeholder="Informe sua Senha" [(ngModel)]="senha">
         
-        <button class="btn-continuar" routerLink="/dashboardadm">Continuar</button>
+        <button class="btn-continuar" (click)="entrar()">Continuar</button>
 
         <div id="separator"></div>
         

@@ -10,19 +10,24 @@
   <div class="form-content">
     
     <div class="header-title">
-      <h1 class="outline-title">ADICIONAR/<br>EDITAR</h1>
+      @if(idSelecionado){
+        <h1 class="outline-title">EDITAR</h1>
+      }
+      @else{
+        <h1 class="outline-title">ADICIONAR</h1>
+      }
     </div>
 
     <form class="event-form" (ngSubmit)="salvarEvento()">
       
       <div class="form-group-row">
         <label>URL da imagem</label>
-        <input type="text" name="urlImagem" [(ngModel)]="evento.urlImagem">
+        <input type="text" name="urlImg" [(ngModel)]="evento.urlImg">
       </div>
 
       <div class="form-group-row">
         <label>Título do evento</label>
-        <input type="text" name="titulo" [(ngModel)]="evento.titulo">
+        <input type="text" name="nome" [(ngModel)]="evento.nome">
       </div>
 
       <div class="form-group-row">
@@ -33,25 +38,33 @@
       <div class="form-row-split">
         <div class="field-cell">
           <label>Data e hora</label>
-          <input type="text" name="dataHora" [(ngModel)]="evento.dataHora">
+          <input type="date" name="dataHora" [(ngModel)]="evento.dataHora">
         </div>
         
         <div class="field-cell short-cell">
           <label>Preço</label>
-          <input type="text" name="preco" [(ngModel)]="evento.preco">
+          <input type="number" name="preco" [(ngModel)]="evento.preco">
         </div>
       </div>
 
       <div class="form-row-split">
         <div class="field-cell">
           <label>Qtd. de ingressos</label>
-          <input type="text" name="qtdIngressos" [(ngModel)]="evento.qtdIngressos">
+          <input type="number" name="qtd" [(ngModel)]="evento.qtd">
         </div>
         
         <div class="field-cell toggle-cell">
           <label>Inativar evento</label>
           <label class="switch">
-            <input type="checkbox" name="inativar" [(ngModel)]="evento.inativar">
+            <input type="checkbox" name="inativo" [(ngModel)]="evento.inativo">
+            <span class="slider round"></span>
+          </label>
+        </div>
+
+        <div class="field-cell toggle-cell">
+          <label>Destacar Evento</label>
+          <label class="switch">
+            <input type="checkbox" name="destaque" [(ngModel)]="evento.destaque">
             <span class="slider round"></span>
           </label>
         </div>

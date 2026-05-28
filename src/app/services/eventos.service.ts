@@ -13,13 +13,34 @@ export class EventosService {
   consultar(): Observable<Evento[]>{
     return this.http.get<Evento[]>(this.api);
   }
+
+  consultarId(id : number) : Observable<Evento>{
+    return this.http.get<Evento>(`${this.api}/${id}`)
+  }
+
+  consultarAtivos(): Observable<Evento[]>{
+    return this.http.get<Evento[]>(`${this.api}?inativo=false`)
+  }
+
+  salvar(evento: Evento): Observable<Evento>{
+    return this.http.post<Evento>(this.api, evento)
+  }
+
+  editar(evento : Evento): Observable<Evento>{
+    return this.http.put<Evento>(`${this.api}/${evento.id}`, evento)
+  }
+
+  remover(id : number){
+    return this.http.delete(`${this.api}/${id}`)
+  }
 }
 
 export interface Evento{
   id: number,
+  urlImg: string,
   nome: string,
   endereco: string,
-  datahora: string,
+  dataHora: string,
   qtd: number,
   preco: number,
   inativo: boolean,

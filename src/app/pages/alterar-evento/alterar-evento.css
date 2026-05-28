@@ -52,7 +52,7 @@
   font-weight: 500;
 }
 
-input[type="text"] {
+input[type="text"], input[type="number"], input[type="date"] {
   background-color: #21192e; 
   border: 1px solid #443953;
   border-radius: 25px;
@@ -65,7 +65,7 @@ input[type="text"] {
   box-sizing: border-box; 
 }
 
-input[type="text"]:focus, textarea:focus {
+input[type="text"], input[type="number"], input[type="date"]:focus, textarea:focus {
   border-color: #d356ff;
   box-shadow: 0 0 8px rgba(211, 86, 255, 0.3);
   background-color: #2a203a; 

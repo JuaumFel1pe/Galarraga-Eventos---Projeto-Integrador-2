@@ -6,9 +6,8 @@
 
     <h1 class="titulo-vazia">Configurações</h1>
 
-    <form [formGroup]="configForm" class="form-wrapper" (ngSubmit)="salvarConfig()">
+    <form [formGroup]="configForm" class="form-wrapper" (ngSubmit)="salvar()">
 
-        <!-- Card: Informações do Cabeçalho -->
         <div class="card-neon">
             <h2>Informações do Cabeçalho</h2>
 
@@ -18,13 +17,17 @@
             </div>
 
             <div class="form-group">
+                <label>Email</label>
+                <input type="text" formControlName="email" class="input-gray input-long">
+            </div>
+
+            <div class="form-group">
                 <label>Telefone</label>
-                <!-- Input mais curto conforme a imagem -->
                 <input type="text" formControlName="telefone" class="input-gray input-short">
             </div>
+
         </div>
 
-        <!-- Card: Links Sociais -->
         <div class="card-neon">
             <h2>Links Sociais</h2>
 
@@ -49,5 +52,8 @@
             </div>
         </div>
 
+        <div class="submit-action">
+            <button type="submit" class="btn-salvar">Salvar</button>
+      </div>
     </form>
 </section>

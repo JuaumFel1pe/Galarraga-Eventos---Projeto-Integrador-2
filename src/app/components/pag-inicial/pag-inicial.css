@@ -71,3 +71,9 @@
     background: none;
     text-decoration: none;
 }
+
+#botao-contato:hover{
+background-color: #a91ad1;
+  color: #ffffff;
+  box-shadow: 0 0 12px #a91ad1;
+}

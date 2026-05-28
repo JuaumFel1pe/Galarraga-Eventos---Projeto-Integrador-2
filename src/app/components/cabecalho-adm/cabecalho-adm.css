@@ -91,4 +91,7 @@ nav{
 
 .buttons button:hover{
     cursor: pointer;
+      background-color: #a91ad1;
+     color: #ffffff;
+    box-shadow: 0 0 12px #a91ad1;
 }

@@ -6,73 +6,81 @@
       "senha": "admin"
     }
   ],
-  "eventos":[
+  "eventos": [
     {
-        "id": 1,
-        "nome": "Festa de fim de ano",
-        "endereco": "Rua fixo, 12",
-        "datahora": "2022-10-31T09:00:00.594Z",
-        "qtd": 15,
-        "preco": 150.00,
-        "inativo": false,
-        "descricao": "lorem ipsum",
-        "destaque": true
+      "id": 1,
+      "urlImg": "https://images.squarespace-cdn.com/content/v1/66d79153e9520d4be736cde2/1732219809609-H4UK6IRLYHVKANC0ZBP2/espaco-para-confraternizacao-de-fim-de-ano.jpeg",
+      "nome": "Festa de fim de ano",
+      "endereco": "Rua fixo, 12",
+      "dataHora": "2022-11-29",
+      "preco": 150,
+      "qtd": 15,
+      "inativo": false,
+      "descricao": " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia erat porttitor libero rutrum dictum. Sed dapibus nisi quis augue fermentum, a suscipit eros porta. Mauris at mi tempus magna cursus venenatis. Integer sodales leo id leo accumsan venenatis. Praesent ullamcorper ullamcorper felis a tempor. Proin aliquet purus vel nisl rutrum semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse ligula dui, facilisis vitae lacinia tempus, pharetra id sapien. Fusce non ipsum eu quam imperdiet auctor eget pellentesque mi. In tincidunt, metus nec ornare accumsan, nibh eros porttitor leo, vel pulvinar justo diam vitae erat.\n\nVivamus feugiat metus sed ex facilisis, eget efficitur mauris iaculis. Morbi tempus nibh eget lorem aliquet, ac volutpat purus tincidunt. Suspendisse gravida convallis odio vel tincidunt. Sed auctor consectetur volutpat. Vivamus a neque semper, fermentum quam a, faucibus purus. Aliquam erat volutpat. Fusce venenatis, justo pretium scelerisque molestie, nulla ex ultrices dolor, non porttitor purus lorem tempus purus. Morbi et faucibus justo, vitae iaculis enim. Aliquam odio dui, blandit sit amet sodales ut, sagittis sit amet augue.\n\nNullam ullamcorper eget velit ac rhoncus. Vivamus non iaculis quam. Quisque venenatis odio tellus, et luctus nisi convallis a. Cras id massa ut enim tincidunt vestibulum aliquet sit amet odio. Suspendisse in quam et urna tincidunt facilisis ut in justo. Nullam eget vehicula nibh. Suspendisse ornare, libero vitae pretium egestas, dui risus hendrerit elit, sed porta lectus neque vel nulla. Fusce facilisis, lorem ut hendrerit interdum, ipsum neque pharetra sapien, quis blandit nulla odio in eros. Duis pellentesque libero ante. Nam gravida sapien ex, efficitur sagittis velit viverra sit amet.\n\nSuspendisse vehicula sollicitudin massa vitae elementum. Etiam quis nulla diam. Suspendisse ullamcorper ante nulla, vel rhoncus arcu gravida vel. Suspendisse ultricies nulla vitae congue scelerisque. Sed efficitur mattis mi eu auctor. In ut egestas ligula, in dapibus leo. Curabitur rutrum, felis sed molestie dignissim, ex tortor cursus ex, sit amet ullamcorper purus libero in ante. Curabitur gravida, dui sit amet ultricies venenatis, nulla ante congue ipsum, id tincidunt arcu sem vitae ligula. Nullam finibus eu metus a scelerisque. Integer egestas dapibus scelerisque. Praesent suscipit sollicitudin nisi. Morbi id rutrum arcu.\n\nIn in lobortis tortor. Aenean ut lectus et felis congue scelerisque. Suspendisse dictum, ante pulvinar consequat pretium, odio felis mattis orci, id efficitur nulla eros non nisl. Quisque vitae sapien non magna tempus faucibus facilisis ut mauris. Pellentesque rhoncus eleifend tortor, at luctus nisl cursus nec. Proin et placerat tellus. Praesent mattis malesuada elit quis porta. Duis sodales purus neque, eget lacinia felis blandit in. ",
+      "destaque": true
     },
     {
-        "id": 2,
-        "nome": "Jantar Beneficiente",
-        "endereco": "Rua fixo, 12",
-        "datahora": "2022-10-31T09:00:00.594Z",
-        "qtd": 15,
-        "preco": 150.00,
-        "inativo": false,
-        "descricao": "lorem ipsum",
-        "destaque": true
+      "id": 2,
+      "urlImg": "https://www.peruibe.sp.gov.br/portal/wp-content/uploads/2019/07/JANTAR-BENEFICENTE-FESTIVAL-GASTRON%C3%94MICO.jpeg",
+      "nome": "Jantar Beneficiente",
+      "endereco": "Rua fixo, 12",
+      "dataHora": "2022-10-31",
+      "preco": 150,
+      "qtd": 15,
+      "inativo": false,
+      "descricao": " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia erat porttitor libero rutrum dictum. Sed dapibus nisi quis augue fermentum, a suscipit eros porta. Mauris at mi tempus magna cursus venenatis. Integer sodales leo id leo accumsan venenatis. Praesent ullamcorper ullamcorper felis a tempor. Proin aliquet purus vel nisl rutrum semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse ligula dui, facilisis vitae lacinia tempus, pharetra id sapien. Fusce non ipsum eu quam imperdiet auctor eget pellentesque mi. In tincidunt, metus nec ornare accumsan, nibh eros porttitor leo, vel pulvinar justo diam vitae erat.\n\nVivamus feugiat metus sed ex facilisis, eget efficitur mauris iaculis. Morbi tempus nibh eget lorem aliquet, ac volutpat purus tincidunt. Suspendisse gravida convallis odio vel tincidunt. Sed auctor consectetur volutpat. Vivamus a neque semper, fermentum quam a, faucibus purus. Aliquam erat volutpat. Fusce venenatis, justo pretium scelerisque molestie, nulla ex ultrices dolor, non porttitor purus lorem tempus purus. Morbi et faucibus justo, vitae iaculis enim. Aliquam odio dui, blandit sit amet sodales ut, sagittis sit amet augue.\n\nNullam ullamcorper eget velit ac rhoncus. Vivamus non iaculis quam. Quisque venenatis odio tellus, et luctus nisi convallis a. Cras id massa ut enim tincidunt vestibulum aliquet sit amet odio. Suspendisse in quam et urna tincidunt facilisis ut in justo. Nullam eget vehicula nibh. Suspendisse ornare, libero vitae pretium egestas, dui risus hendrerit elit, sed porta lectus neque vel nulla. Fusce facilisis, lorem ut hendrerit interdum, ipsum neque pharetra sapien, quis blandit nulla odio in eros. Duis pellentesque libero ante. Nam gravida sapien ex, efficitur sagittis velit viverra sit amet.\n\nSuspendisse vehicula sollicitudin massa vitae elementum. Etiam quis nulla diam. Suspendisse ullamcorper ante nulla, vel rhoncus arcu gravida vel. Suspendisse ultricies nulla vitae congue scelerisque. Sed efficitur mattis mi eu auctor. In ut egestas ligula, in dapibus leo. Curabitur rutrum, felis sed molestie dignissim, ex tortor cursus ex, sit amet ullamcorper purus libero in ante. Curabitur gravida, dui sit amet ultricies venenatis, nulla ante congue ipsum, id tincidunt arcu sem vitae ligula. Nullam finibus eu metus a scelerisque. Integer egestas dapibus scelerisque. Praesent suscipit sollicitudin nisi. Morbi id rutrum arcu.\n\nIn in lobortis tortor. Aenean ut lectus et felis congue scelerisque. Suspendisse dictum, ante pulvinar consequat pretium, odio felis mattis orci, id efficitur nulla eros non nisl. Quisque vitae sapien non magna tempus faucibus facilisis ut mauris. Pellentesque rhoncus eleifend tortor, at luctus nisl cursus nec. Proin et placerat tellus. Praesent mattis malesuada elit quis porta. Duis sodales purus neque, eget lacinia felis blandit in. ",
+      "destaque": true
     },
     {
-        "id": 3,
-        "nome": "Laureano El miedo",
-        "endereco": "Rua fixo, 12",
-        "datahora": "2022-10-31T09:00:00.594Z",
-        "qtd": 15,
-        "preco": 150.00,
-        "inativo": false,
-        "descricao": "lorem ipsum",
-        "destaque": true
+      "id": 3,
+      "urlImg": "https://jornaldobelem.com.br/images/fotosextras/QUINTAL%20DO%20ESPETO%20-%20Divulga%C3%A7%C3%A3o.JPG",
+      "nome": "Laureano El miedo",
+      "endereco": "Rua fixo, 12",
+      "dataHora": "2022-10-31",
+      "preco": 150,
+      "qtd": 15,
+      "inativo": false,
+      "descricao": " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia erat porttitor libero rutrum dictum. Sed dapibus nisi quis augue fermentum, a suscipit eros porta. Mauris at mi tempus magna cursus venenatis. Integer sodales leo id leo accumsan venenatis. Praesent ullamcorper ullamcorper felis a tempor. Proin aliquet purus vel nisl rutrum semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse ligula dui, facilisis vitae lacinia tempus, pharetra id sapien. Fusce non ipsum eu quam imperdiet auctor eget pellentesque mi. In tincidunt, metus nec ornare accumsan, nibh eros porttitor leo, vel pulvinar justo diam vitae erat.\n\nVivamus feugiat metus sed ex facilisis, eget efficitur mauris iaculis. Morbi tempus nibh eget lorem aliquet, ac volutpat purus tincidunt. Suspendisse gravida convallis odio vel tincidunt. Sed auctor consectetur volutpat. Vivamus a neque semper, fermentum quam a, faucibus purus. Aliquam erat volutpat. Fusce venenatis, justo pretium scelerisque molestie, nulla ex ultrices dolor, non porttitor purus lorem tempus purus. Morbi et faucibus justo, vitae iaculis enim. Aliquam odio dui, blandit sit amet sodales ut, sagittis sit amet augue.\n\nNullam ullamcorper eget velit ac rhoncus. Vivamus non iaculis quam. Quisque venenatis odio tellus, et luctus nisi convallis a. Cras id massa ut enim tincidunt vestibulum aliquet sit amet odio. Suspendisse in quam et urna tincidunt facilisis ut in justo. Nullam eget vehicula nibh. Suspendisse ornare, libero vitae pretium egestas, dui risus hendrerit elit, sed porta lectus neque vel nulla. Fusce facilisis, lorem ut hendrerit interdum, ipsum neque pharetra sapien, quis blandit nulla odio in eros. Duis pellentesque libero ante. Nam gravida sapien ex, efficitur sagittis velit viverra sit amet.\n\nSuspendisse vehicula sollicitudin massa vitae elementum. Etiam quis nulla diam. Suspendisse ullamcorper ante nulla, vel rhoncus arcu gravida vel. Suspendisse ultricies nulla vitae congue scelerisque. Sed efficitur mattis mi eu auctor. In ut egestas ligula, in dapibus leo. Curabitur rutrum, felis sed molestie dignissim, ex tortor cursus ex, sit amet ullamcorper purus libero in ante. Curabitur gravida, dui sit amet ultricies venenatis, nulla ante congue ipsum, id tincidunt arcu sem vitae ligula. Nullam finibus eu metus a scelerisque. Integer egestas dapibus scelerisque. Praesent suscipit sollicitudin nisi. Morbi id rutrum arcu.\n\nIn in lobortis tortor. Aenean ut lectus et felis congue scelerisque. Suspendisse dictum, ante pulvinar consequat pretium, odio felis mattis orci, id efficitur nulla eros non nisl. Quisque vitae sapien non magna tempus faucibus facilisis ut mauris. Pellentesque rhoncus eleifend tortor, at luctus nisl cursus nec. Proin et placerat tellus. Praesent mattis malesuada elit quis porta. Duis sodales purus neque, eget lacinia felis blandit in. ",
+      "destaque": true
+    },
+    {
+      "id": 4,
+      "urlImg": "https://projetosespeciais.com/wp-content/uploads/2019/04/Evento-Corporativo.jpg",
+      "nome": "Show Musical",
+      "endereco": "Av. Carlos Barbosa Santos, 1125",
+      "dataHora": "2025-05-04",
+      "preco": 200,
+      "qtd": 10,
+      "inativo": true,
+      "descricao": " Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed lacinia erat porttitor libero rutrum dictum. Sed dapibus nisi quis augue fermentum, a suscipit eros porta. Mauris at mi tempus magna cursus venenatis. Integer sodales leo id leo accumsan venenatis. Praesent ullamcorper ullamcorper felis a tempor. Proin aliquet purus vel nisl rutrum semper. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Suspendisse ligula dui, facilisis vitae lacinia tempus, pharetra id sapien. Fusce non ipsum eu quam imperdiet auctor eget pellentesque mi. In tincidunt, metus nec ornare accumsan, nibh eros porttitor leo, vel pulvinar justo diam vitae erat.\n\nVivamus feugiat metus sed ex facilisis, eget efficitur mauris iaculis. Morbi tempus nibh eget lorem aliquet, ac volutpat purus tincidunt. Suspendisse gravida convallis odio vel tincidunt. Sed auctor consectetur volutpat. Vivamus a neque semper, fermentum quam a, faucibus purus. Aliquam erat volutpat. Fusce venenatis, justo pretium scelerisque molestie, nulla ex ultrices dolor, non porttitor purus lorem tempus purus. Morbi et faucibus justo, vitae iaculis enim. Aliquam odio dui, blandit sit amet sodales ut, sagittis sit amet augue.\n\nNullam ullamcorper eget velit ac rhoncus. Vivamus non iaculis quam. Quisque venenatis odio tellus, et luctus nisi convallis a. Cras id massa ut enim tincidunt vestibulum aliquet sit amet odio. Suspendisse in quam et urna tincidunt facilisis ut in justo. Nullam eget vehicula nibh. Suspendisse ornare, libero vitae pretium egestas, dui risus hendrerit elit, sed porta lectus neque vel nulla. Fusce facilisis, lorem ut hendrerit interdum, ipsum neque pharetra sapien, quis blandit nulla odio in eros. Duis pellentesque libero ante. Nam gravida sapien ex, efficitur sagittis velit viverra sit amet.\n\nSuspendisse vehicula sollicitudin massa vitae elementum. Etiam quis nulla diam. Suspendisse ullamcorper ante nulla, vel rhoncus arcu gravida vel. Suspendisse ultricies nulla vitae congue scelerisque. Sed efficitur mattis mi eu auctor. In ut egestas ligula, in dapibus leo. Curabitur rutrum, felis sed molestie dignissim, ex tortor cursus ex, sit amet ullamcorper purus libero in ante. Curabitur gravida, dui sit amet ultricies venenatis, nulla ante congue ipsum, id tincidunt arcu sem vitae ligula. Nullam finibus eu metus a scelerisque. Integer egestas dapibus scelerisque. Praesent suscipit sollicitudin nisi. Morbi id rutrum arcu.\n\nIn in lobortis tortor. Aenean ut lectus et felis congue scelerisque. Suspendisse dictum, ante pulvinar consequat pretium, odio felis mattis orci, id efficitur nulla eros non nisl. Quisque vitae sapien non magna tempus faucibus facilisis ut mauris. Pellentesque rhoncus eleifend tortor, at luctus nisl cursus nec. Proin et placerat tellus. Praesent mattis malesuada elit quis porta. Duis sodales purus neque, eget lacinia felis blandit in. ",
+      "destaque": false
     }
   ],
-  "vendas":[
+  "vendas": [
     {
-        "id": 111555,
-        "cliente": "Joäo Pedro",
-        "ingresso": "Festa de fim de ano",
-        "status": "Pago",
-        "data": "2022-11-20",
-        "valor": 125.00
+      "id": 1,
+      "cliente": "Joäo Pedro",
+      "ingresso": "Festa de fim de ano",
+      "status": "Pago",
+      "data": "2022-11-20",
+      "valor": 125
     },
     {
-        "id": 122451,
-        "cliente": "Rogério Santos",
-        "ingresso": "Jantar Beneficiente",
-        "status": "Pendente",
-        "data": "2022-11-20",
-        "valor": 280.00
-    },
-    {
-        "id": 1776644,
-        "cliente": "Júlia Almeida",
-        "ingresso": "Laureano El miedo",
-        "status": "Pendente",
-        "data": "2022-11-20",
-        "valor": 167.00
+      "id": 2,
+      "cliente": "Júlia Almeida",
+      "ingresso": "Laureano El miedo",
+      "status": "Pendente",
+      "data": "2022-11-20",
+      "valor": 167
     }
   ],
   "configuracoes": {
-    "endereco":"Rua fixo, 12",
-    "telefone": "11 9455-3333",
-    "facebook": "facebook.com/galarraga_eventos",
-    "instagram": "instagram.com/galarraga_eventos",
-    "linkedin": "linkedin.com/galarraga_eventos",
-    "twitter": "twitter.com/galarraga_eventos"
+    "endereco": "Av. das Nações Unidas, 5.777, Alto de Pinheiros\nSão Paulo - SP, 05477-900",
+    "email": "eventos.galarraga@veneven.com",
+    "telefone": "+55 11 4002 84736",
+    "facebook": "https://facebook.com/galarraga_eventos",
+    "instagram": "https://instagram.com/galarraga_eventos",
+    "linkedin": "https://linkedin.com/galarraga_eventos",
+    "twitter": "https://twitter.com/galarraga_eventos"
   }
 }

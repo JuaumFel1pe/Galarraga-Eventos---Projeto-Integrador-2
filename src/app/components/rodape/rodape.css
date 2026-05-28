@@ -23,7 +23,10 @@
 .endereco{
     display: flex;
     flex-direction: column;
+}
 
+.endereco p{
+    white-space: pre-line;
 }
 
 .redes-sociais{
@@ -40,9 +43,17 @@
     height: 40px;
 }
 
+#facebook:hover{
+    cursor: pointer;
+}
+
 #instagram{
     width: 40px;
     height: 40px;
+}
+
+#instagram:hover{
+    cursor: pointer;
 }
 
 #linkedin{
@@ -50,7 +61,15 @@
     height: 40px;
 }
 
+#linkedin:hover{
+    cursor: pointer;
+}
+
 #twitter{
     width: 45px;
     height: 45px;
+}
+
+#twitter:hover{
+    cursor: pointer;
 }

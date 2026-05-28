@@ -127,9 +127,27 @@ input{
   color:#c000ff;
 }
 
+.btn-outline:hover{
+  background-color: #a91ad1;
+  color: #ffffff;
+  box-shadow: 0 0 12px #a91ad1;
+}
+
+.btn-editar:hover{
+  background-color: #a91ad1;
+  color: #ffffff;
+  box-shadow: 0 0 12px #a91ad1;
+}
+
 .btn-excluir{
   border:2px solid #ff2f2f;
   color:#ff2f2f;
+}
+
+.btn-excluir:hover{
+  background-color: #f74c4c;
+  color: #ffffff;
+  box-shadow: 0 0 12px #f74c4c;
 }
 
 .tabela-card{

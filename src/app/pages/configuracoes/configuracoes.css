@@ -33,6 +33,8 @@
   max-width: 800px;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  
   gap: 35px;
 }
 
@@ -101,4 +103,22 @@
 
 .input-short {
   width: 250px; /* Mantém o telefone menor */
+}
+
+.btn-salvar {
+  background-color: transparent;
+  color: #a91ad1;
+  border: 2px solid #a91ad1;
+  border-radius: 20px;
+  padding: 10px 35px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-salvar:hover {
+  background-color: #a91ad1;
+  color: #ffffff;
+  box-shadow: 0 0 12px #a91ad1;
 }

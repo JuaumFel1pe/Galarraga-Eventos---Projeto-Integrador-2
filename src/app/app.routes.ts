@@ -7,6 +7,7 @@ import { MeusEventos } from './pages/meus-eventos/meus-eventos';
 import { Vendas } from './pages/vendas/vendas';
 import { Configuracoes } from './pages/configuracoes/configuracoes';
 import { Evento } from './pages/evento/evento';
+import { AlterarEvento } from './pages/alterar-evento/alterar-evento';
 
 export const routes: Routes = [
     {path: '', component: Home},
@@ -15,5 +16,7 @@ export const routes: Routes = [
     {path: 'meus-eventos', component:MeusEventos},
     {path: 'vendas', component: Vendas},
     {path: 'configuracoes', component:Configuracoes},
-    {path: 'evento', component:Evento}
+    {path: 'evento', component:Evento},
+    {path: 'adicionar-evento', component: AlterarEvento},
+    {path: 'adicionar-evento/:id', component: AlterarEvento}
 ];

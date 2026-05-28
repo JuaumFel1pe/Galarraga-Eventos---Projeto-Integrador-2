@@ -1,82 +1,61 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, afterNextRender } from '@angular/core';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
-interface Evento {
-  id: number;
-  nome: string;
-  data: string;
-  preco: number | null;
-  ingressos: number | null;
-  ativo: boolean;
-  editing?: boolean;
-}
+import { Evento, EventosService } from '../../services/eventos.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-meus-eventos', standalone: true,
-  imports: [CommonModule, FormsModule, CabecalhoAdm, MenuLateralAdm],
+  imports: [CommonModule, FormsModule, CabecalhoAdm, MenuLateralAdm, RouterLink],
   templateUrl: './meus-eventos.html',
   styleUrl: './meus-eventos.css',
 })
 
 export class MeusEventos {
-  ultimoId = 4;
+  constructor(private eventosApi: EventosService, private cdr: ChangeDetectorRef
+  ) {
+    afterNextRender(() => {
+      this.buscar();
+    });
+  }
+
+  eventos: Evento[] = []
+  eventosFiltrados: Evento[] = []
+
+  buscar() {
+    this.eventosApi.consultar().subscribe({
+      next: (resp) => {
+        this.eventos = resp;
+        this.eventosFiltrados = [...this.eventos]
+        
+        this.cdr.detectChanges();
+      }
+    });
+  }
 
   filtroNome = '';
   filtroData = '';
   filtroPreco: number | null = null;
   mostrarInativos = false;
 
-  eventos: Evento[] = [
-    {
-      id: 1,
-      nome: 'Festa de fim de ano',
-      data: '31/12/2025',
-      preco: 150,
-      ingressos: 1000,
-      ativo: true,
-      editing: false
-    },
-    {
-      id: 2,
-      nome: 'Jantar Beneficente',
-      data: '11/06/2025',
-      preco: 280,
-      ingressos: 1000,
-      ativo: true,
-      editing: false
-    },
-    {
-      id: 3,
-      nome: 'Laureano "El miedo"',
-      data: '21/05/2025',
-      preco: 167,
-      ingressos: 1000,
-      ativo: false,
-      editing: false
-    }
-  ];
-
-  eventosFiltrados: Evento[] = [...this.eventos];
-
   filtrar() {
     this.eventosFiltrados = this.eventos.filter(evento => {
-      const nomeOk =
-        !this.filtroNome ||
+
+      const nomeOk = 
+        !this.filtroNome || 
         evento.nome.toLowerCase().includes(this.filtroNome.toLowerCase());
 
-      const dataOk =
-        !this.filtroData ||
-        evento.data.includes(this.filtroData);
+      const dataOk = 
+        !this.filtroData || 
+        (evento.dataHora && evento.dataHora.split('T')[0] === this.filtroData);
 
-      const precoOk =
-        !this.filtroPreco ||
-        evento.preco === Number(this.filtroPreco);
+      const precoOk = 
+        !this.filtroPreco || 
+        Number(evento.preco) <= Number(this.filtroPreco);
 
-      const ativoOk =
-        this.mostrarInativos || evento.ativo;
+      const ativoOk = this.mostrarInativos ? evento.inativo === true : !evento.inativo;
 
       return nomeOk && dataOk && precoOk && ativoOk;
     });
@@ -84,36 +63,17 @@ export class MeusEventos {
 
   toggleInativos() {
     this.mostrarInativos = !this.mostrarInativos;
-  }
 
-  editar(evento: Evento) {
-    evento.editing = true;
-  }
-
-  salvar(evento: Evento) {
-    evento.editing = false;
-    this.filtrar();
+    this.filtrar(); 
   }
 
   excluir(id: number) {
-    this.eventos = this.eventos.filter(e => e.id !== id);
-    this.filtrar();
+    this.eventosApi.remover(id).subscribe(() => {
+      alert("Evento deletado com sucesso")
+      this.buscar()
+    })
   }
 
-  adicionarEvento() {
-    const novo: Evento = {
-      id: this.ultimoId++,
-      nome: '',
-      data: '',
-      preco: null,
-      ingressos: null,
-      ativo: true,
-      editing: true
-    };
-
-    this.eventos.unshift(novo);
-    this.filtrar();
-  }
 
   formatarPreco(valor: number | null): string {
     if (valor === null) return '';

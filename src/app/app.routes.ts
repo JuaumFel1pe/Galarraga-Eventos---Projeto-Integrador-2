@@ -16,7 +16,7 @@ export const routes: Routes = [
     {path: 'meus-eventos', component:MeusEventos},
     {path: 'vendas', component: Vendas},
     {path: 'configuracoes', component:Configuracoes},
-    {path: 'evento', component:Evento},
+    {path: 'evento/:id', component:Evento},
     {path: 'adicionar-evento', component: AlterarEvento},
     {path: 'adicionar-evento/:id', component: AlterarEvento}
 ];

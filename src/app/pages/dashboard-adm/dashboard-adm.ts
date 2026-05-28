@@ -6,7 +6,7 @@ import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
 import { Venda, VendasService } from '../../services/vendas.service';
 import { EventosService } from '../../services/eventos.service';
-import { Evento } from '../evento/evento';
+import { EventoModel } from '../../services/eventos.service';
 
 @Component({
   selector: 'app-dashboard-adm',
@@ -16,7 +16,7 @@ import { Evento } from '../evento/evento';
 })
 export class DashboardAdm {
   vendas : Venda[] = []
-  eventos : Evento[] = []
+  eventos : EventoModel[] = []
 
   dashboard = {
     receita : 0,

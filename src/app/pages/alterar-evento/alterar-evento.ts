@@ -1,10 +1,10 @@
-import { Component, ChangeDetectorRef, afterNextRender } from '@angular/core'; 
+import { Component, ChangeDetectorRef, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms'; 
-import { RouterModule, ActivatedRoute, Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-import { EventosService, Evento } from '../../services/eventos.service';
+import { EventoModel, EventosService } from '../../services/eventos.service';
 
 @Component({
   selector: 'app-alterar-evento',
@@ -14,9 +14,11 @@ import { EventosService, Evento } from '../../services/eventos.service';
   styleUrls: ['./alterar-evento.css']
 })
 export class AlterarEvento {
+
   idSelecionado: number | null = null;
 
-  evento = {
+  evento: EventoModel = {
+    id: 0,
     urlImg: '',
     nome: '',
     endereco: '',
@@ -29,7 +31,10 @@ export class AlterarEvento {
   };
 
   constructor(
-    private eventoApi: EventosService, private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef 
+    private eventoApi: EventosService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {
     afterNextRender(() => {
       this.verificarModoEdicao();
@@ -38,17 +43,16 @@ export class AlterarEvento {
 
   verificarModoEdicao() {
     const id = this.route.snapshot.paramMap.get('id');
-  
+
     if (id) {
-      this.idSelecionado = parseInt(id);
+      this.idSelecionado = Number(id);
 
       this.eventoApi.consultarId(this.idSelecionado).subscribe({
         next: (resp) => {
           this.preencherFormulario(resp);
-          
-          this.cdr.detectChanges(); 
+          this.cdr.detectChanges();
         },
-        error: (error) => {
+        error: () => {
           alert("Evento não encontrado!");
           this.router.navigate(["/meus-eventos"]);
         }
@@ -56,42 +60,34 @@ export class AlterarEvento {
     }
   }
 
-  preencherFormulario(evento: Evento): void {
-
-    this.evento.urlImg = evento.urlImg;
-    this.evento.nome = evento.nome;
-    this.evento.endereco = evento.endereco;
-    this.evento.preco = evento.preco;
-    this.evento.qtd = evento.qtd;
-    this.evento.inativo = evento.inativo;
-    this.evento.descricao = evento.descricao;
-    this.evento.destaque = evento.destaque;
-    
-    this.evento.dataHora = evento.dataHora ? evento.dataHora.split('T')[0] : '';
-
-    console.log(this.evento.urlImg)
+  preencherFormulario(evento: EventoModel): void {
+    this.evento = {
+      ...evento,
+      dataHora: evento.dataHora ? evento.dataHora.split('T')[0] : ''
+    };
   }
 
   salvarEvento(): void {
-    const dadosFinais = {
-      ...this.evento
-    };
 
     if (this.idSelecionado) {
-      const dadosParaAtualizar: Evento = {
-        id: this.idSelecionado,
-        ...dadosFinais
+
+      const dadosAtualizados: EventoModel = {
+        ...this.evento,
+        id: this.idSelecionado
       };
 
-      this.eventoApi.editar(dadosParaAtualizar).subscribe(() => {
+      this.eventoApi.editar(dadosAtualizados).subscribe(() => {
         alert("Evento atualizado com sucesso!");
         this.router.navigate(['/meus-eventos']);
       });
+
     } else {
-      this.eventoApi.salvar(dadosFinais as Evento).subscribe(() => {
+
+      this.eventoApi.salvar(this.evento).subscribe(() => {
         alert("Evento adicionado com sucesso!");
         this.router.navigate(['/meus-eventos']);
       });
+
     }
   }
 }

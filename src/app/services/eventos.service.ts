@@ -10,24 +10,24 @@ export class EventosService {
 
   constructor(private http: HttpClient){}
 
-  consultar(): Observable<Evento[]>{
-    return this.http.get<Evento[]>(this.api);
+  consultar(): Observable<EventoModel[]>{
+    return this.http.get<EventoModel[]>(this.api);
   }
 
-  consultarId(id : number) : Observable<Evento>{
-    return this.http.get<Evento>(`${this.api}/${id}`)
+  consultarId(id : number) : Observable<EventoModel>{
+    return this.http.get<EventoModel>(`${this.api}/${id}`)
   }
 
-  consultarAtivos(): Observable<Evento[]>{
-    return this.http.get<Evento[]>(`${this.api}?inativo=false`)
+  consultarAtivos(): Observable<EventoModel[]>{
+    return this.http.get<EventoModel[]>(`${this.api}?inativo=false`)
   }
 
-  salvar(evento: Evento): Observable<Evento>{
-    return this.http.post<Evento>(this.api, evento)
+  salvar(evento: EventoModel): Observable<EventoModel>{
+    return this.http.post<EventoModel>(this.api, evento)
   }
 
-  editar(evento : Evento): Observable<Evento>{
-    return this.http.put<Evento>(`${this.api}/${evento.id}`, evento)
+  editar(evento : EventoModel): Observable<EventoModel>{
+    return this.http.put<EventoModel>(`${this.api}/${evento.id}`, evento)
   }
 
   remover(id : number){
@@ -35,7 +35,7 @@ export class EventosService {
   }
 }
 
-export interface Evento{
+export interface EventoModel{
   id: number,
   urlImg: string,
   nome: string,

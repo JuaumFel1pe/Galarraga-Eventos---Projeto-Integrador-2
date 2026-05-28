@@ -3,7 +3,7 @@ import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Evento, EventosService } from '../../services/eventos.service';
+import { EventoModel, EventosService } from '../../services/eventos.service';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -21,8 +21,8 @@ export class MeusEventos {
     });
   }
 
-  eventos: Evento[] = []
-  eventosFiltrados: Evento[] = []
+  eventos: EventoModel[] = []
+  eventosFiltrados: EventoModel[] = []
 
   buscar() {
     this.eventosApi.consultar().subscribe({
@@ -80,7 +80,7 @@ export class MeusEventos {
     return `R$ ${valor.toFixed(2).replace('.', ',')}`;
   }
 
-  trackById(index: number, item: Evento) {
+  trackById(index: number, item: EventoModel) {
     return item.id;
   }
 }

@@ -36,6 +36,11 @@ export class Login {
           this.mensagemErro = "Usuário ou senha incorretos.";
         }
       },
+
+       error: () => {
+        this.mensagemErro = "Erro ao conectar com o servidor.";
+  }
+
     });
   }
 

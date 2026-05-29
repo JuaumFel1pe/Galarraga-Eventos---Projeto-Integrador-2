@@ -8,7 +8,7 @@
   font-family: Arial, Helvetica, sans-serif;
   color: white;
 
-  margin-left: 260px; /* Mesma largura da sidebar */
+  margin-left: 260px;
   padding: 30px;
   min-height: 92vh;
   max-width: 100%;
@@ -16,12 +16,11 @@
 
 .dashboard-container > h1{
   padding: 20px 0px;
-  font-family: sans-serif; /* Substitua pela fonte exata do seu layout */
-  font-size: 48px; /* Ajuste para o tamanho real do seu design */
-  font-weight: 800; /* Fontes em negrito ou 'black' ficam melhores com esse efeito */
-  letter-spacing: 1px; /* Dá um leve respiro entre as letras, como na imagem */
+  font-family: sans-serif;
+  font-size: 48px; 
+  font-weight: 800; 
+  letter-spacing: 1px;
 
-  /* O truque do efeito neon/vazado */
   color: transparent; 
   -webkit-text-stroke: 1.5px #ffffff;
 }

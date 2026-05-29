@@ -14,7 +14,7 @@ section{
   gap: 40px;
 }
 
-/* SEPARADOR PRINCIPAL */
+
 #separador{
   width: 120px;
   height: 5px;
@@ -22,7 +22,7 @@ section{
   border-radius: 20px;
 }
 
-/* TÍTULO */
+
 h1{
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
   font-weight: 800;
@@ -34,12 +34,12 @@ h1{
   margin: 0;
 }
 
-/* COR DIFERENTE NO TEXTO */
+
 #cor{
   color: #6C5893;
 }
 
-/* GRID DOS EVENTOS */
+
 .eventos{
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -49,7 +49,7 @@ h1{
   max-width: 1200px;
 }
 
-/* CARD */
+
 .card{
   background-color: #11032B;
   border-radius: 30px;
@@ -67,13 +67,12 @@ h1{
   box-shadow: 0px 10px 25px rgba(0,0,0,0.4);
 }
 
-/* HOVER DO CARD */
 .card:hover{
   transform: translateY(-10px);
   box-shadow: 0px 15px 35px rgba(0,0,0,0.6);
 }
 
-/* CONTAINER DA IMAGEM */
+
 .img-container{
   width: 100%;
   height: 250px;
@@ -81,14 +80,13 @@ h1{
   border-radius: 20px;
 }
 
-/* IMAGEM */
+
 .img-container img{
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* SEPARADOR DO CARD */
 .separador-card{
   width: 80px;
   height: 4px;
@@ -98,7 +96,6 @@ h1{
   border-radius: 10px;
 }
 
-/* TEXTO DO CARD */
 .card h3{
   color: #fff;
   font-size: 25px;

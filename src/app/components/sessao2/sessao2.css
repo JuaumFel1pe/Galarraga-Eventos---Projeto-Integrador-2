@@ -20,7 +20,7 @@ section {
   flex-direction: column;
   justify-content: flex-start;
   padding-top: 20px;
-  max-width: 400px; /* Limita a largura do bloco de texto para o wrap correto */
+  max-width: 400px; 
 }
 
 .title-wrapper {
@@ -29,70 +29,64 @@ section {
   margin-bottom: 30px;
 }
 
-/* A linha vertical roxa */
 .purple-line {
   width: 6px;
-  height: 100%; /* Ajuste fino se necessário, ou use min-height */
-  min-height: 200px; /* Altura mínima aproximada do texto */
-  background-color: #D612DC; /* O roxo da imagem */
+  height: 100%; 
+  min-height: 200px; 
+  background-color: #D612DC; 
   margin-right: 15px;
 }
 
-/* O texto principal */
 .title-text {
-  color: #D612DC; /* O magenta da imagem */
-  font-size: 2.2rem; /* Ajuste o tamanho da fonte */
+  color: #D612DC; 
+  font-size: 2.2rem; 
   font-weight: bold;
   text-transform: uppercase;
-  line-height: 1.1; /* Linhas coladas conforme a imagem */
+  line-height: 1.1; 
   letter-spacing: 1px;
 }
 
-/* Pequena quebra manual para forçar o wrap igual à imagem */
 .title-text span {
   display: block;
 }
 
-/* A imagem menor (thumbnail) */
 .small-image-box {
   width: 100%;
   height: 100%;
-  border-radius: 20px; /* Bordas arredondadas */
-  overflow: hidden; /* Garante que a imagem siga as bordas */
+  border-radius: 20px; 
+  overflow: hidden; 
   
 }
 
 .small-image-box svg {
   width: 100%;
   height: 90%;
-  object-fit: cover; /* Faz a imagem preencher o espaço sem distorcer */
+  object-fit: cover; 
   
 }
 
-/* --- Coluna da Direita (Colagem Única) --- */
+
 .image-column {
-  flex: 1; /* Ocupa 50% ou espaço proporcional */
+  flex: 1; 
   display: flex;
-  justify-content: flex-end; /* Encosta a colagem no lado direito */
+  justify-content: flex-end; 
 }
 
 .main-collage-box {
   width: 100%;
-  max-width: 600px; /* Largura máxima da colagem */
-  /* A colagem SVG já virá inclinada, então só ajustamos o posicionamento e a escala */
+  max-width: 600px; 
 }
 
 .main-collage-box img {
   width: 100%;
   height: auto;
   display: block;
-  object-fit: contain; /* Garante que o SVG completo apareça */
+  object-fit: contain; 
 }
 
-/* --- Responsividade (Para telas menores/celulares) --- */
 @media (max-width: 768px) {
   .main-container {
-    flex-direction: column; /* Empilha os blocos verticalmente */
+    flex-direction: column;
     padding: 20px;
     align-items: center;
     text-align: center;
@@ -100,15 +94,15 @@ section {
 
   .title-wrapper {
     justify-content: center;
-    text-align: left; /* Mantém o texto alinhado à esquerda dentro do bloco */
+    text-align: left;
   }
 
   .small-image-box {
-    margin: 0 auto; /* Centraliza a foto menor */
+    margin: 0 auto; 
   }
 
   .image-column {
-    justify-content: center; /* Centraliza a colagem */
+    justify-content: center;
     width: 100%;
     margin-top: 30px;
   }

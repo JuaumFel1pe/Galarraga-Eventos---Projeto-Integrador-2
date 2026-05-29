@@ -1,4 +1,4 @@
-/* Variáveis nativas do CSS baseadas na imagem */
+
 :root {
   --neon-purple: #c05ced;
   --bg-dark: #000000;
@@ -10,7 +10,7 @@
   font-family: sans-serif;
 }
 
-/* --- HEADER ESCURO --- */
+
 .event-header {
   background-color: #000000;
   color: #ffffff;
@@ -21,7 +21,7 @@
   gap: 40px;
 }
 
-/* Responsividade para telas menores */
+
 @media (max-width: 800px) {
   .event-header {
     flex-direction: column;
@@ -74,7 +74,7 @@
   object-fit: cover;
 }
 
-/* --- CONTEÚDO CLARO --- */
+
 .event-content {
   background-color: #fcf9f7;
   display: flex;
@@ -110,7 +110,7 @@
   color: #333333;
 }
 
-/* --- CARD DE INGRESSOS --- */
+
 .ticket-sidebar {
   flex: 1;
   width: 100%;

@@ -17,7 +17,7 @@
   align-items: center;
 }
 
-/* Reaproveitando o estilo do título vazado da tela de Vendas */
+
 .titulo-vazia {
   font-size: 3.5rem;
   font-weight: bold;
@@ -38,10 +38,10 @@
   gap: 35px;
 }
 
-/* Estilo das caixas com brilho roxo */
+
 .card-neon {
-  background-color: #030005; /* Fundo levemente diferenciado para contraste, opcional */
-  border: 2px solid #b24bf3; /* Tom de roxo neon */
+  background-color: #030005; 
+  border: 2px solid #b24bf3; 
   border-radius: 12px;
   padding: 30px 40px;
   /* Efeito glow externo e interno na borda */
@@ -57,7 +57,7 @@
   color: #ffffff;
 }
 
-/* Alinhamento de cada linha do formulário */
+
 .form-group {
   display: flex;
   align-items: center;
@@ -69,18 +69,18 @@
 }
 
 .form-group label {
-  width: 130px; /* Largura fixa para deixar todos os inputs alinhados na mesma coluna */
+  width: 130px; 
   font-size: 1rem;
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Estilização dos Inputs (Pílulas Cinzas) */
+
 .input-gray {
   background-color: #a3a3a3;
   border: none;
-  border-radius: 20px; /* Bordas arredondadas */
+  border-radius: 20px; 
   padding: 8px 16px;
   font-size: 0.95rem;
   color: #222222;
@@ -93,16 +93,16 @@
 }
 
 .input-gray:focus {
-  background-color: #c4c4c4; /* Clareia um pouco ao clicar */
+  background-color: #c4c4c4; 
 }
 
-/* Tamanhos dos inputs */
+
 .input-long {
-  flex-grow: 1; /* Faz o input esticar até o final do card */
+  flex-grow: 1; 
 }
 
 .input-short {
-  width: 250px; /* Mantém o telefone menor */
+  width: 250px; 
 }
 
 .btn-salvar {

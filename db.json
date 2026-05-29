@@ -64,14 +64,6 @@
       "status": "Pago",
       "data": "2022-11-20",
       "valor": 125
-    },
-    {
-      "id": 2,
-      "cliente": "Júlia Almeida",
-      "ingresso": "Laureano El miedo",
-      "status": "Pendente",
-      "data": "2022-11-20",
-      "valor": 167
     }
   ],
   "configuracoes": {

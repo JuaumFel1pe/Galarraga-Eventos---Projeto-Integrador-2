@@ -1,26 +1,34 @@
-<app-cabecalho-adm/>
+<app-cabecalho-adm />
+
 <section class="vendas-container">
-    <aside class="sidebar">
-        <app-menu-lateral-adm />
-    </aside>
+  <aside class="sidebar">
+    <app-menu-lateral-adm />
+  </aside>
 
-  <h1 class="titulo-vazia">Vendas</h1>
+  <main class="vendas-content">
+    <h1 class="titulo-vazia">
+      Vendas
+    </h1>
 
-  <div class="tabela-wrapper">
-    <table class="tabela-vendas">
-      <thead>
-        <tr>
-          <th>ID do Pedido</th>
-          <th>Nome do Cliente</th>
-          <th>Ingresso</th>
-          <th>Status</th>
-          <th>Data</th>
-          <th>Valor</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (venda of vendas; track venda.id) {
+    <div class="tabela-wrapper">
+      <table class="tabela-vendas">
+
+        <thead>
+          <tr>
+            <th>ID do Pedido</th>
+            <th>Nome do Cliente</th>
+            <th>Ingresso</th>
+            <th>Status</th>
+            <th>Data</th>
+            <th>Valor</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          @for (venda of vendas; track venda.id) {
+
           <tr>
             <td>{{ venda.id }}</td>
             <td>{{ venda.cliente }}</td>
@@ -29,27 +37,31 @@
             <td>{{ venda.data }}</td>
             <td>{{ formatarPreco(venda.valor) }}</td>
             <td class="celula-acao">
-              
+
               @if (venda.status === 'Pago') {
-                <button class="btn-reenviar" (click)="reenviar(venda.id)">
-                  Reenviar
-                </button>
+              <button class="btn-reenviar" (click)="reenviar(venda.id)">
+                Reenviar
+              </button>
               }
 
               @if (venda.status === 'Pendente') {
-                <button class="btn-cancelar" (click)="cancelar(venda.id)">
-                  Cancelar
-                </button>
+              <button class="btn-cancelar" (click)="cancelar(venda.id)">
+                Cancelar
+              </button>
               }
-
             </td>
           </tr>
-        } @empty {
+
+          } @empty {
           <tr>
-            <td colspan="7" style="padding: 20px;">Nenhuma venda encontrada no momento.</td>
+            <td colspan="7" class="sem-vendas">
+              Nenhuma venda encontrada no momento.
+            </td>
           </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+          }
+
+        </tbody>
+      </table>
+    </div>
+  </main>
 </section>

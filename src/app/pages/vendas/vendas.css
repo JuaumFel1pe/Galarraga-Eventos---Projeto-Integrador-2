@@ -1,87 +1,102 @@
 *{
-  margin: 0px;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.vendas-container {
-  flex-grow: 1;
-  background-color: #0d0b14;
-  width: 100%;
-  color: #ffffff;
-  padding: 40px;
-  min-height: 92vh;
-  font-family: Arial, Helvetica, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.vendas-container{
+    width: 100%;
+    min-height: 100vh;
+    background: #0d0b14;
+    display: flex;
+    flex-direction: row;
+    font-family: 'Lexend', sans-serif;
 }
 
-.titulo-vazia {
-  font-size: 100px;
-  font-weight: bold;
-  color: transparent;
-  -webkit-text-stroke: 1.5px #ffffff;
-  margin-bottom: 50px;
-  text-align: center;
-  letter-spacing: 2px;
+.sidebar{
+    width: 250px;
+    min-height: 100vh;
+    background: #12002f;
+    border-right: 1px solid rgba(255,255,255,0.08);
 }
 
-.tabela-wrapper {
-  width: 100%;
-  max-width: 1100px;
-  border: 1px solid #9d4edd; 
-  border-radius: 16px;
-  overflow: hidden; 
+.vendas-content{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 60px;
 }
 
-.tabela-vendas {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
+.titulo-vazia{
+    font-size: 58px;
+    font-weight: 800;
+    color: transparent;
+    -webkit-text-stroke: 2px #ffffff;
+    letter-spacing: 2px;
+    margin-bottom: 50px;
 }
 
-.tabela-vendas th,
-.tabela-vendas td {
-  padding: 18px 12px;
-  border-right: 1px solid #c000ff;
-  font-size: 0.95rem;
+.tabela-wrapper{
+    width: 100%;
+    max-width: 1200px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(157, 78, 221, 0.5);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.25);
 }
 
-.tabela-vendas th:last-child,
-.tabela-vendas td:last-child {
-  border-right: none;
+.tabela-vendas{
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
 }
 
-.tabela-vendas th {
-  font-weight: normal;
-  color: #dddddd;
-  border-bottom: 1px solid #9d4edd;
+.tabela-vendas th{
+    background: rgba(157, 78, 221, 0.08);
+    color: #d9d9d9;
+    font-weight: 600;
+    font-size: 15px;
+    padding: 22px 15px;
+    border-bottom: 1px solid rgba(157, 78, 221, 0.35);
+}
+
+.tabela-vendas td{
+    padding: 22px 15px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 15px;
+}
+
+.tabela-vendas tbody tr:hover{
+    background: rgba(255,255,255,0.03);
 }
 
 .btn-reenviar,
-.btn-cancelar {
-  background: transparent;
-  border-radius: 20px;
-  padding: 6px 18px;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: background-color 0.2s ease;
+.btn-cancelar{
+    padding: 8px 18px;
+    border-radius: 30px;
+    background: transparent;
+    cursor: pointer;
+    transition: 0.3s;
+    font-weight: 600;
 }
 
-.btn-reenviar {
-  color: #e67e22;
-  border: 1px solid #e67e22;
+.btn-reenviar{
+    border: 1px solid #f39c12;
+    color: #f39c12;
 }
 
-.btn-reenviar:hover {
-  background-color: rgba(230, 126, 34, 0.1);
+.btn-reenviar:hover{
+    background: rgba(243,156,18,0.12);
 }
 
-.btn-cancelar {
-  color: #e74c3c;
-  border: 1px solid #e74c3c;
+.btn-cancelar{
+    border: 1px solid #e74c3c;
+    color: #e74c3c;
 }
 
-.btn-cancelar:hover {
-  background-color: rgba(231, 76, 60, 0.1);
+.btn-cancelar:hover{
+    background: rgba(231,76,60,0.12);
 }

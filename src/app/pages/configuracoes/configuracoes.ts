@@ -1,67 +1,37 @@
-import { Component, ChangeDetectorRef, afterNextRender, inject } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-
+import { Component, inject, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { finalize } from 'rxjs';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-import { Configuracao, ConfiguracoesServices } from '../../services/configuracoes.services';
+import { Api, erroApi } from '../../core/api';
+import { Configuracao } from '../../core/modelos';
 
 @Component({
-  selector: 'app-configuracoes',
-  standalone: true,
-  imports: [CabecalhoAdm, MenuLateralAdm, ReactiveFormsModule],
+  selector: 'app-configuracoes', imports: [CabecalhoAdm, MenuLateralAdm, FormsModule],
   templateUrl: './configuracoes.html',
-  styleUrl: './configuracoes.css',
 })
 export class Configuracoes {
-  
-  configuracoes: Configuracao | undefined;
-  private fb = inject(NonNullableFormBuilder);
+  private readonly api = inject(Api);
+  readonly dados = signal<Configuracao | null>(null);
+  readonly erro = signal('');
+  readonly salvo = signal(false);
+  readonly enviando = signal(false);
 
-  configForm = this.fb.group({
-    endereco: ['', Validators.required],
-    email: ['', Validators.required],
-    telefone: ['', Validators.required],
-    facebook: ['', Validators.required],
-    instagram: ['', Validators.required],
-    linkedin: ['', Validators.required],
-    twitter: ['', Validators.required]
-  });
-
-  constructor(private configuracoesApi: ConfiguracoesServices, private cdr: ChangeDetectorRef) {
-    afterNextRender(() => {
-      this.buscarPreencher();
+  ngOnInit() {
+    this.api.configuracao().subscribe({
+      next: config => this.dados.set(config),
+      error: erro => this.erro.set(erroApi(erro, 'Não foi possível carregar as configurações.')),
     });
   }
 
-  buscarPreencher() {
-    this.configuracoesApi.buscar().subscribe((resp) => {
-      this.configuracoes = resp;
-
-      this.configForm.patchValue({
-        endereco: resp.endereco,
-        email: resp.email,
-        telefone: resp.telefone,
-        facebook: resp.facebook,
-        instagram: resp.instagram,
-        linkedin: resp.linkedin,
-        twitter: resp.twitter
-      });
-
-      this.cdr.detectChanges();
+  salvar(config: Configuracao) {
+    if (this.enviando()) return;
+    this.erro.set('');
+    this.salvo.set(false);
+    this.enviando.set(true);
+    this.api.salvarConfiguracao(config).pipe(finalize(() => this.enviando.set(false))).subscribe({
+      next: atualizado => { this.dados.set(atualizado); this.salvo.set(true); },
+      error: erro => this.erro.set(erroApi(erro, 'Não foi possível salvar as configurações.')),
     });
-  }
-
-  salvar() {
-    if (this.configForm.valid) {
-      const dadosAtualizados: Configuracao = this.configForm.getRawValue();
-
-      this.configuracoesApi.atualizar(dadosAtualizados).subscribe(() => {
-        alert("Configurações alteradas com sucesso!");
-        this.buscarPreencher()
-      });
-      
-    } else {
-      alert("Por favor, preencha todos os campos!");
-    }
   }
 }

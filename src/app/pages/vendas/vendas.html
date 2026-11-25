@@ -1,67 +1,40 @@
 <app-cabecalho-adm />
-
-<section class="vendas-container">
-  <aside class="sidebar">
-    <app-menu-lateral-adm />
-  </aside>
-
-  <main class="vendas-content">
-    <h1 class="titulo-vazia">
-      Vendas
-    </h1>
-
-    <div class="tabela-wrapper">
-      <table class="tabela-vendas">
-
-        <thead>
-          <tr>
-            <th>ID do Pedido</th>
-            <th>Nome do Cliente</th>
-            <th>Ingresso</th>
-            <th>Status</th>
-            <th>Data</th>
-            <th>Valor</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-
-        <tbody>
-
-          @for (venda of vendas; track venda.id) {
-
-          <tr>
-            <td>{{ venda.id }}</td>
-            <td>{{ venda.cliente }}</td>
-            <td>{{ venda.ingresso }}</td>
-            <td>{{ venda.status }}</td>
-            <td>{{ venda.data }}</td>
-            <td>{{ formatarPreco(venda.valor) }}</td>
-            <td class="celula-acao">
-
-              @if (venda.status === 'Pago') {
-              <button class="btn-reenviar" (click)="reenviar(venda.id)">
-                Reenviar
-              </button>
-              }
-
-              @if (venda.status === 'Pendente') {
-              <button class="btn-cancelar" (click)="cancelar(venda.id)">
-                Cancelar
-              </button>
-              }
-            </td>
-          </tr>
-
-          } @empty {
-          <tr>
-            <td colspan="7" class="sem-vendas">
-              Nenhuma venda encontrada no momento.
-            </td>
-          </tr>
-          }
-
-        </tbody>
-      </table>
-    </div>
+<div class="g-admin">
+  <app-menu-lateral-adm />
+  <main class="g-container g-pilha">
+    <h1 class="g-titulo">Vendas e check-in</h1>
+    <form class="g-card g-pilha" (ngSubmit)="validar()">
+      <h2>Validar ingresso</h2>
+      <label class="g-campo">Código do ingresso
+        <input name="codigo" maxlength="255" required placeholder="Cole o código enviado no pedido" [(ngModel)]="codigo" [disabled]="validando()">
+      </label>
+      @if (erroCheckIn()) { <p class="g-alerta" role="alert">{{ erroCheckIn() }}</p> }
+      @if (sucesso()) { <p class="g-sucesso" role="status">{{ sucesso() }}</p> }
+      <div><button class="g-acao" [disabled]="!codigo.trim() || validando()">Registrar check-in</button></div>
+    </form>
+    @if (erro()) { <p class="g-alerta" role="alert">{{ erro() }}</p> }
+    @if (carregando()) { <p class="g-nota" role="status">Carregando vendas…</p> }
+    @else {
+      <section class="g-card g-pilha g-rolagem">
+        <h2>Pedidos</h2>
+        <table class="g-tabela">
+          <thead><tr><th scope="col">Pedido</th><th scope="col">Cliente</th><th scope="col">Data</th>
+            <th scope="col">Ingressos</th><th scope="col">Total</th><th scope="col">Status</th><th scope="col">Ações</th></tr></thead>
+          <tbody>
+            @for (venda of vendas(); track venda.id) {
+              <tr>
+                <th scope="row">#{{ venda.id }}</th><td>{{ venda.cliente }}</td><td>{{ venda.dataPedido | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ venda.quantidade }}</td><td>{{ moeda(venda.valorTotal) }}</td><td><span class="g-tag">{{ venda.status }}</span></td>
+                <td>
+                  @if (venda.cancelavel) {
+                    <button class="g-acao g-secundario" [disabled]="cancelando() !== null" (click)="cancelar(venda)">Cancelar</button>
+                  }
+                </td>
+              </tr>
+            } @empty { <tr><td colspan="7">Nenhum pedido encontrado.</td></tr> }
+          </tbody>
+        </table>
+      </section>
+    }
   </main>
-</section>
+</div>

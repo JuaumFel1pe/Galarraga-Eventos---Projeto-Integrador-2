@@ -1,107 +1,44 @@
 <app-cabecalho-adm />
-
-<div class="admin-layout">
-  <aside class="sidebar">
-    <app-menu-lateral-adm />
-  </aside>
-
-  <main class="admin-content">
-
-    <h1 class="titulo">EVENTOS</h1>
-
-    <section class="filtros-card">
-
-      <div class="linha-filtros">
-        <div class="campo grande">
-          <label>Nome do evento</label>
-          <input type="text" [(ngModel)]="filtroNome">
-        </div>
-
-        <div class="campo pequeno">
-          <label>Preço</label>
-          <input type="number" [(ngModel)]="filtroPreco">
-        </div>
-      </div>
-
-      <div class="linha-filtros">
-        <div class="campo medio">
-          <label>Data</label>
-          <input type="date" placeholder="dd/mm/aaaa" [(ngModel)]="filtroData">
-        </div>
-
-        <div class="toggle-area">
-          <span>Eventos inativos</span>
-
-          <button type="button" class="toggle" [class.ativo]="mostrarInativos" (click)="toggleInativos()">
-            <span></span>
-          </button>
-        </div>
-      </div>
-
-      <div class="acoes-filtro">
-        <button class="btn-outline" (click)="filtrar()">
-          Filtrar
-        </button>
-      </div>
-
-    </section>
-
-    <section class="tabela-card">
-
-      <div class="tabela-header">
-        <div>Nome do evento</div>
-        <div>Data</div>
-        <div>Preço</div>
-        <div>Ingressos Restantes</div>
-        <div></div>
-        <div></div>
-      </div>
-
-      @for (evento of eventosFiltrados; track evento.id) {
-      <div class="tabela-row">
-
-        <div class="cell">
-          {{ evento.nome || 'Novo evento' }}
-        </div>
-
-        <div class="cell">
-          {{ evento.dataHora | date:'dd/MM/yyyy' }}
-        </div>
-
-        <div class="cell">
-          {{ formatarPreco(evento.preco) }}
-        </div>
-
-        <div class="cell">
-          {{ evento.qtd }}
-        </div>
-
-        <div class="cell btn-cell">
-          <button class="btn-editar" [routerLink]="['/adicionar-evento', evento.id]">
-            Editar
-          </button>
-        </div>
-
-        <div class="cell btn-cell">
-          <button class="btn-excluir" (click)="excluir(evento.id)">
-            Excluir
-          </button>
-        </div>
-
-      </div>
-      } @empty {
-      <div class="tabela-row empty-message">
-        Nenhum evento encontrado.
-      </div>
-      }
-
-      <div class="rodape">
-        <button class="btn-outline" routerLink="/adicionar-evento">
-          Adicionar evento
-        </button>
-      </div>
-
-    </section>
-
+<div class="g-admin">
+  <app-menu-lateral-adm />
+  <main class="g-container g-pilha">
+    <div class="g-flex g-entre">
+      <h1 class="g-titulo">Eventos</h1>
+      <a class="g-acao" routerLink="/adicionar-evento">Novo evento</a>
+    </div>
+    <div class="g-card g-grid">
+      <label class="g-campo">Nome do evento
+        <input type="search" [value]="filtroNome()" (input)="filtroNome.set($event.target.value)">
+      </label>
+      <label class="g-campo">Status
+        <select #status [value]="filtroStatus()" (change)="filtroStatus.set(status.value)">
+          <option value="">Todos</option><option value="ATIVO">Ativo</option>
+          <option value="CANCELADO">Cancelado</option><option value="ENCERRADO">Encerrado</option>
+        </select>
+      </label>
+    </div>
+    @if (erro()) { <p class="g-alerta" role="alert">{{ erro() }}</p> }
+    @if (carregando()) { <p class="g-nota" role="status">Carregando eventos…</p> }
+    @else {
+      <section class="g-card g-rolagem" aria-label="Eventos cadastrados">
+        <table class="g-tabela">
+          <thead><tr><th scope="col">Evento</th><th scope="col">Início</th><th scope="col">Local</th>
+            <th scope="col">Estoque</th><th scope="col">Status</th><th scope="col">Ações</th></tr></thead>
+          <tbody>
+            @for (evento of filtrados(); track evento.id) {
+              <tr>
+                <th scope="row">{{ evento.titulo }}</th><td>{{ evento.dataInicio | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ evento.local }}</td><td>{{ evento.disponiveis }}</td><td><span class="g-tag">{{ evento.status }}</span></td>
+                <td><div class="g-flex">
+                  <a class="g-link" [routerLink]="['/adicionar-evento', evento.id]">Editar</a>
+                  <a class="g-link" routerLink="/catalogo-admin" [queryParams]="{ evento: evento.id }">Ingressos</a>
+                  <button type="button" class="g-acao g-secundario" [disabled]="excluindo() !== null" (click)="excluir(evento)">Excluir</button>
+                </div></td>
+              </tr>
+            } @empty { <tr><td colspan="6">Nenhum evento encontrado.</td></tr> }
+          </tbody>
+        </table>
+      </section>
+    }
   </main>
 </div>

@@ -1,0 +1,89 @@
+<app-cabecalho-adm />
+<div class="g-admin">
+  <app-menu-lateral-adm />
+  <main class="g-container g-pilha">
+    <h1 class="g-titulo">Categorias, locais e ingressos</h1>
+    <div class="g-flex" aria-label="Tipo de cadastro">
+      <button type="button" class="g-acao" [class.g-secundario]="aba() !== 'categorias'" [attr.aria-pressed]="aba() === 'categorias'" [disabled]="processando()" (click)="selecionar('categorias')">Categorias</button>
+      <button type="button" class="g-acao" [class.g-secundario]="aba() !== 'locais'" [attr.aria-pressed]="aba() === 'locais'" [disabled]="processando()" (click)="selecionar('locais')">Locais</button>
+      <button type="button" class="g-acao" [class.g-secundario]="aba() !== 'tipos-ingresso'" [attr.aria-pressed]="aba() === 'tipos-ingresso'" [disabled]="processando()" (click)="selecionar('tipos-ingresso')">Tipos de ingresso</button>
+    </div>
+    @if (erro()) { <p class="g-alerta" role="alert">{{ erro() }}</p> }
+    @if (sucesso()) { <p class="g-sucesso" role="status">{{ sucesso() }}</p> }
+    @if (carregando()) { <p class="g-nota" role="status">Carregando catálogo…</p> }
+    <div class="g-duas">
+      <section class="g-card g-pilha">
+        @switch (aba()) {
+          @case ('categorias') {
+            <h2>Categorias</h2>
+            <ul class="g-lista">
+              @for (item of categorias(); track item.id) {
+                <li class="g-flex g-entre"><div><strong>{{ item.nome }}</strong><p class="g-nota">{{ item.descricao }}</p></div>
+                  <div class="g-flex"><button class="g-acao g-secundario" type="button" [disabled]="processando()" (click)="editarCategoria(item)">Editar</button>
+                    <button class="g-acao g-secundario" type="button" [disabled]="processando()" (click)="excluir(item.id, item.nome)">Excluir</button></div></li>
+              } @empty { <li>Nenhuma categoria cadastrada.</li> }
+            </ul>
+          }
+          @case ('locais') {
+            <h2>Locais</h2>
+            <ul class="g-lista">
+              @for (item of locais(); track item.id) {
+                <li class="g-flex g-entre"><div><strong>{{ item.nome }}</strong><p class="g-nota">{{ item.cidade }} - {{ item.estado }} · {{ item.capacidade }} lugares</p></div>
+                  <div class="g-flex"><button class="g-acao g-secundario" type="button" [disabled]="processando()" (click)="editarLocal(item)">Editar</button>
+                    <button class="g-acao g-secundario" type="button" [disabled]="processando()" (click)="excluir(item.id, item.nome)">Excluir</button></div></li>
+              } @empty { <li>Nenhum local cadastrado.</li> }
+            </ul>
+          }
+          @case ('tipos-ingresso') {
+            <h2>Tipos de ingresso</h2>
+            <label class="g-campo">Filtrar por evento
+              <select [ngModel]="filtroEvento()" (ngModelChange)="filtroEvento.set($event)">
+                <option [ngValue]="0">Todos os eventos</option>
+                @for (evento of eventos(); track evento.id) { <option [ngValue]="evento.id">{{ evento.titulo }}</option> }
+              </select>
+            </label>
+            <ul class="g-lista">
+              @for (item of tiposFiltrados(); track item.id) {
+                <li class="g-flex g-entre"><div><strong>{{ item.nome }} · {{ nomeEvento(item.idEvento) }}</strong>
+                  <p class="g-nota">{{ moeda(item.preco) }} · {{ item.quantidadeDisponivel }} de {{ item.quantidadeTotal }} disponíveis</p></div>
+                  <div class="g-flex"><button class="g-acao g-secundario" type="button" [disabled]="processando()" (click)="editarTipo(item)">Editar</button>
+                    <button class="g-acao g-secundario" type="button" [disabled]="processando()" (click)="excluir(item.id, item.nome)">Excluir</button></div></li>
+              } @empty { <li>Nenhum tipo de ingresso encontrado.</li> }
+            </ul>
+          }
+        }
+      </section>
+      <form class="g-card g-pilha" ngNativeValidate #form="ngForm" (ngSubmit)="form.valid && salvar()">
+        <h2>{{ id ? 'Editar cadastro' : 'Novo cadastro' }}</h2>
+        @switch (aba()) {
+          @case ('categorias') {
+            <label class="g-campo">Nome <input name="nomeCategoria" required maxlength="50" [(ngModel)]="categoria.nome"></label>
+            <label class="g-campo">Descrição <textarea name="descricao" [(ngModel)]="categoria.descricao"></textarea></label>
+          }
+          @case ('locais') {
+            <label class="g-campo">Nome <input name="nomeLocal" required maxlength="100" [(ngModel)]="local.nome"></label>
+            <label class="g-campo">Endereço <input name="endereco" required maxlength="200" [(ngModel)]="local.endereco"></label>
+            <label class="g-campo">Cidade <input name="cidade" required maxlength="50" [(ngModel)]="local.cidade"></label>
+            <label class="g-campo">UF <input name="estado" required maxlength="2" pattern="[A-Za-z]{2}" [(ngModel)]="local.estado"></label>
+            <label class="g-campo">Capacidade <input type="number" name="capacidade" required min="1" step="1" [(ngModel)]="local.capacidade"></label>
+          }
+          @case ('tipos-ingresso') {
+            <label class="g-campo">Evento
+              <select name="evento" [(ngModel)]="tipo.idEvento" [disabled]="id !== undefined">
+                <option [ngValue]="0" disabled>Selecione</option>
+                @for (evento of eventos(); track evento.id) { <option [ngValue]="evento.id">{{ evento.titulo }}</option> }
+              </select>
+            </label>
+            <label class="g-campo">Nome <input name="nomeTipo" required maxlength="50" [(ngModel)]="tipo.nome"></label>
+            <label class="g-campo">Preço (R$) <input type="number" name="preco" min="0" step="0.01" required [(ngModel)]="tipo.preco"></label>
+            <label class="g-campo">Quantidade total <input type="number" name="quantidade" min="1" step="1" required [(ngModel)]="tipo.quantidadeTotal"></label>
+          }
+        }
+        <div class="g-flex">
+          <button class="g-acao" [disabled]="processando() || (aba() === 'tipos-ingresso' && !tipo.idEvento)">Salvar</button>
+          @if (id) { <button type="button" class="g-acao g-secundario" [disabled]="processando()" (click)="limpar()">Cancelar edição</button> }
+        </div>
+      </form>
+    </div>
+  </main>
+</div>

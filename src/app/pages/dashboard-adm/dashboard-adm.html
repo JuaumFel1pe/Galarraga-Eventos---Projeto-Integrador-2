@@ -1,40 +1,25 @@
-<app-cabecalho-adm/>
-<div class="dashboard-container">
-  <app-menu-lateral-adm/>
-
-  <h1>PAINEL DO ADMINISTRADOR</h1>
-  <div class="cards-topo">
-    <div class="info-card">
-      <div class="info-texto">
-        <span>Receita bruta</span>
-        <h2>{{ formatarPreco(dashboard.receita) }}</h2>
+<app-cabecalho-adm />
+<div class="g-admin">
+  <app-menu-lateral-adm />
+  <main class="g-container g-pilha">
+    <div class="g-flex g-entre"><h1 class="g-titulo">Painel do administrador</h1>
+      <a class="g-acao" routerLink="/adicionar-evento">Novo evento</a></div>
+    @if (carregando()) { <p class="g-nota" role="status">Carregando indicadores…</p> }
+    @if (erro()) { <p class="g-alerta" role="alert">{{ erro() }}</p> }
+    @if (dados(); as resumo) {
+      <div class="g-grid">
+        <article class="g-card"><p class="g-nota">Vendas simuladas</p><h2>{{ moeda(receita()) }}</h2></article>
+        <article class="g-card"><p class="g-nota">Ingressos vendidos</p><h2>{{ vendidos() }}</h2></article>
+        <article class="g-card"><p class="g-nota">Eventos ativos</p><h2>{{ resumo.ativos }}</h2></article>
+        <article class="g-card"><p class="g-nota">Ingressos disponíveis</p><h2>{{ resumo.estoque }}</h2></article>
       </div>
-      <div class="icone-card">↗</div>
-    </div>
-
-    <div class="info-card">
-      <div class="info-texto">
-        <span>Ingressos vendidos</span>
-        <h2>{{dashboard.ingressosVendidos}}</h2>
-      </div>
-      <div class="icone-card">🎟</div>
-    </div>
-
-    <div class="info-card">
-      <div class="info-texto">
-        <span>Eventos ativo</span>
-        <h2>{{dashboard.eventosAtivos}}</h2>
-      </div>
-      <div class="icone-card">📅</div>
-    </div>
-  </div>
-
-  <div class="grafico-card">
-    <canvas
-      baseChart
-      [data]="graficoGastosData"
-      [type]="graficoGastosTipo"
-      [options]="graficoOptions">
-    </canvas>
-  </div>
+      <section class="g-card g-pilha">
+        <div class="g-flex g-entre"><h2>Vendas recentes</h2><a class="g-link" routerLink="/vendas">Ver pedidos</a></div>
+        @if (confirmadas().length) {
+          <div class="grafico"><canvas baseChart [data]="grafico()" [options]="opcoes" [type]="'bar'"
+            role="img" aria-label="Valores dos pedidos confirmados nos últimos sete dias com vendas"></canvas></div>
+        } @else { <p class="g-nota">Os pedidos confirmados aparecem no gráfico.</p> }
+      </section>
+    }
+  </main>
 </div>

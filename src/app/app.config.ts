@@ -1,12 +1,13 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
-
+import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { routes } from './app.routes';
+import { autenticacao } from './core/sessao';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideBrowserGlobalErrorListeners(), provideRouter(routes),
-    provideCharts(withDefaultRegisterables()), provideHttpClient()
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'top' })),
+    provideHttpClient(withInterceptors([autenticacao])),
   ],
 };

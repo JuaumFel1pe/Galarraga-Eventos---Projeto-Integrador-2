@@ -1,43 +1,13 @@
-import { Component, ChangeDetectorRef, afterNextRender, inject } from '@angular/core';
-import { Configuracao, ConfiguracoesServices } from '../../services/configuracoes.services';
+import { Component, inject, signal } from '@angular/core';
+import { Api } from '../../core/api';
+import { Configuracao } from '../../core/modelos';
 
-@Component({
-  selector: 'app-rodape',
-  imports: [],
-  templateUrl: './rodape.html',
-  styleUrl: './rodape.css',
-})
+@Component({ selector: 'app-rodape', templateUrl: './rodape.html', styleUrl: './rodape.css' })
 export class Rodape {
-  configuracoes : Configuracao | undefined
-  
-  constructor(private configuracoesApi : ConfiguracoesServices, private cdr: ChangeDetectorRef){
-    afterNextRender(() => {
-      this.buscar();
-    });
+  readonly dados = signal<Configuracao | null>(null);
+  private readonly api = inject(Api);
+
+  ngOnInit() {
+    this.api.configuracao().subscribe({ next: dados => this.dados.set(dados), error: () => undefined });
   }
-
-  buscar(){
-    this.configuracoesApi.buscar().subscribe((resp) => {
-      this.configuracoes = resp
-
-      this.cdr.detectChanges();
-    })
-  }
-
-  facebook() {
-    window.open(this.configuracoes?.facebook, '_blank');
-  }
-
-  linkedin(){
-    window.open(this.configuracoes?.linkedin, '_blank');
-  }
-
-  instagram(){
-    window.open(this.configuracoes?.instagram, '_blank');
-  }
-
-  twitter(){
-    window.open(this.configuracoes?.twitter, '_blank');
-  }
-
 }

@@ -1,59 +1,26 @@
 <app-cabecalho-adm />
-<section class="config-container">
-    <aside class="sidebar">
-        <app-menu-lateral-adm />
-    </aside>
-
-    <h1 class="titulo-vazia">Configurações</h1>
-
-    <form [formGroup]="configForm" class="form-wrapper" (ngSubmit)="salvar()">
-
-        <div class="card-neon">
-            <h2>Informações do Cabeçalho</h2>
-
-            <div class="form-group">
-                <label>Endereço</label>
-                <input type="text" formControlName="endereco" class="input-gray input-long">
-            </div>
-
-            <div class="form-group">
-                <label>Email</label>
-                <input type="text" formControlName="email" class="input-gray input-long">
-            </div>
-
-            <div class="form-group">
-                <label>Telefone</label>
-                <input type="text" formControlName="telefone" class="input-gray input-short">
-            </div>
-
+<div class="g-admin">
+  <app-menu-lateral-adm />
+  <main class="g-container g-pilha">
+    <h1 class="g-titulo">Configurações</h1>
+    @if (erro()) { <p class="g-alerta" role="alert">{{ erro() }}</p> }
+    @if (salvo()) { <p class="g-sucesso" role="status">Configurações salvas.</p> }
+    @if (dados(); as config) {
+      <form class="g-card g-pilha" ngNativeValidate #form="ngForm" (ngSubmit)="form.valid && salvar(config)">
+        <h2>Contato e redes sociais</h2>
+        <label class="g-campo">Endereço <input name="endereco" required maxlength="300" [(ngModel)]="config.endereco"></label>
+        <div class="g-grid">
+          <label class="g-campo">E-mail <input type="email" name="email" email required maxlength="150" [(ngModel)]="config.email"></label>
+          <label class="g-campo">Telefone <input type="tel" name="telefone" required maxlength="20" [(ngModel)]="config.telefone"></label>
         </div>
-
-        <div class="card-neon">
-            <h2>Links Sociais</h2>
-
-            <div class="form-group">
-                <label><i class="icon-facebook"></i> Facebook</label>
-                <input type="text" formControlName="facebook" class="input-gray input-long">
-            </div>
-
-            <div class="form-group">
-                <label><i class="icon-instagram"></i> Instagram</label>
-                <input type="text" formControlName="instagram" class="input-gray input-long">
-            </div>
-
-            <div class="form-group">
-                <label><i class="icon-linkedin"></i> Linkedin</label>
-                <input type="text" formControlName="linkedin" class="input-gray input-long">
-            </div>
-
-            <div class="form-group">
-                <label><i class="icon-twitter"></i> Twitter</label>
-                <input type="text" formControlName="twitter" class="input-gray input-long">
-            </div>
+        <div class="g-grid">
+          <label class="g-campo">Instagram <input type="url" name="instagram" maxlength="255" [(ngModel)]="config.instagram"></label>
+          <label class="g-campo">Facebook <input type="url" name="facebook" maxlength="255" [(ngModel)]="config.facebook"></label>
+          <label class="g-campo">LinkedIn <input type="url" name="linkedin" maxlength="255" [(ngModel)]="config.linkedin"></label>
+          <label class="g-campo">X <input type="url" name="twitter" maxlength="255" [(ngModel)]="config.twitter"></label>
         </div>
-
-        <div class="submit-action">
-            <button type="submit" class="btn-salvar">Salvar</button>
-      </div>
-    </form>
-</section>
+        <div><button class="g-acao" [disabled]="enviando()">{{ enviando() ? 'Salvando…' : 'Salvar' }}</button></div>
+      </form>
+    } @else if (!erro()) { <p class="g-nota" role="status">Carregando configurações…</p> }
+  </main>
+</div>

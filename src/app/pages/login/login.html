@@ -1,27 +1,16 @@
-<app-cabecalho/>
-
-<section class="login">
-
-    <div class="login-card">
-        <h1>Informe seus dados credenciais!</h1>
-
-        @if(mensagemErro){
-            <div class="error-msg">
-                {{mensagemErro}}
-            </div>
-        }
-        
-        <input type="email" placeholder="Informe seu E-mail" [(ngModel)]="email">
-        <input type="password" placeholder="Informe sua Senha" [(ngModel)]="senha">
-        
-        <button class="btn-continuar" (click)="entrar()">Continuar</button>
-
-        <div id="separator"></div>
-        
-        <p class="footer-text">
-            Não possui uma conta? <a>Registre-se</a>
-        </p>
-    </div>
-</section>
-
-<app-rodape/>
+<app-cabecalho />
+<main class="g-container g-estreito">
+  <form class="g-card g-pilha" [formGroup]="formulario" (ngSubmit)="entrar()">
+    <h1 class="g-titulo">Entrar</h1>
+    @if (mensagemErro()) { <p role="alert" class="g-alerta">{{ mensagemErro() }}</p> }
+    <label class="g-campo">E-mail
+      <input type="email" formControlName="email" autocomplete="username" maxlength="150">
+    </label>
+    <label class="g-campo">Senha
+      <input type="password" formControlName="senha" autocomplete="current-password" maxlength="72">
+    </label>
+    <button class="g-acao" [disabled]="enviando()">{{ enviando() ? 'Entrando…' : 'Entrar' }}</button>
+    <p class="g-nota">Primeira vez aqui? <a class="g-link" routerLink="/cadastro" queryParamsHandling="preserve">Crie sua conta</a>.</p>
+  </form>
+</main>
+<app-rodape />

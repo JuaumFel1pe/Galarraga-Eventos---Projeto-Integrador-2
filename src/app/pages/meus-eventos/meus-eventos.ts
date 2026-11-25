@@ -1,87 +1,55 @@
-import { Component, ChangeDetectorRef, afterNextRender } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EventoModel, EventosService } from '../../services/eventos.service';
-import { RouterLink } from '@angular/router';
+import { Api, erroApi } from '../../core/api';
+import { Evento } from '../../core/modelos';
 
-@Component({
-  selector: 'app-meus-eventos', standalone: true,
-  imports: [CommonModule, FormsModule, CabecalhoAdm, MenuLateralAdm, RouterLink],
-  templateUrl: './meus-eventos.html',
-  styleUrl: './meus-eventos.css',
-})
-
-export class MeusEventos {
-  constructor(private eventosApi: EventosService, private cdr: ChangeDetectorRef
-  ) {
-    afterNextRender(() => {
-      this.buscar();
-    });
-  }
-
-  eventos: EventoModel[] = []
-  eventosFiltrados: EventoModel[] = []
-
-  buscar() {
-    this.eventosApi.consultar().subscribe({
-      next: (resp) => {
-        this.eventos = resp;
-        this.eventosFiltrados = [...this.eventos]
-        
-        this.cdr.detectChanges();
-      }
-    });
-  }
-
-  filtroNome = '';
-  filtroData = '';
-  filtroPreco: number | null = null;
-  mostrarInativos = false;
-
-  filtrar() {
-    this.eventosFiltrados = this.eventos.filter(evento => {
-
-      const nomeOk = 
-        !this.filtroNome || 
-        evento.nome.toLowerCase().includes(this.filtroNome.toLowerCase());
-
-      const dataOk = 
-        !this.filtroData || 
-        (evento.dataHora && evento.dataHora.split('T')[0] === this.filtroData);
-
-      const precoOk = 
-        !this.filtroPreco || 
-        Number(evento.preco) <= Number(this.filtroPreco);
-
-      const ativoOk = this.mostrarInativos ? evento.inativo === true : !evento.inativo;
-
-      return nomeOk && dataOk && precoOk && ativoOk;
-    });
-  }
-
-  toggleInativos() {
-    this.mostrarInativos = !this.mostrarInativos;
-
-    this.filtrar(); 
-  }
-
-  excluir(id: number) {
-    this.eventosApi.remover(id).subscribe(() => {
-      alert("Evento deletado com sucesso")
-      this.buscar()
-    })
-  }
-
-
-  formatarPreco(valor: number | null): string {
-    if (valor === null) return '';
-    return `R$ ${valor.toFixed(2).replace('.', ',')}`;
-  }
-
-  trackById(index: number, item: EventoModel) {
-    return item.id;
-  }
+interface LinhaEvento extends Evento {
+  local: string;
+  disponiveis: number;
 }
 
+@Component({
+  selector: 'app-meus-eventos', imports: [DatePipe, CabecalhoAdm, MenuLateralAdm, RouterLink],
+  templateUrl: './meus-eventos.html',
+})
+export class MeusEventos {
+  private readonly api = inject(Api);
+  readonly eventos = signal<LinhaEvento[]>([]);
+  readonly filtroNome = signal('');
+  readonly filtroStatus = signal('');
+  readonly carregando = signal(true);
+  readonly erro = signal('');
+  readonly excluindo = signal<number | null>(null);
+  readonly filtrados = computed(() => this.eventos().filter(evento =>
+    evento.titulo.toLowerCase().includes(this.filtroNome().trim().toLowerCase())
+      && (!this.filtroStatus() || evento.status === this.filtroStatus())));
+
+  ngOnInit() { this.buscar(); }
+
+  buscar() {
+    this.carregando.set(true);
+    this.api.catalogo().pipe(finalize(() => this.carregando.set(false))).subscribe({
+      next: ({ eventos, locais, tipos }) => this.eventos.set(eventos.map(evento => ({
+        ...evento,
+        local: locais.find(local => local.id === evento.idLocal)?.nome ?? 'Local indisponível',
+        disponiveis: tipos.filter(tipo => tipo.idEvento === evento.id)
+          .reduce((total, tipo) => total + tipo.quantidadeDisponivel, 0),
+      }))),
+      error: erro => this.erro.set(erroApi(erro, 'Não foi possível carregar os eventos.')),
+    });
+  }
+
+  excluir(evento: Evento) {
+    if (this.excluindo() !== null || !window.confirm('Excluir o evento ' + evento.titulo + '?')) return;
+    this.erro.set('');
+    this.excluindo.set(evento.id);
+    this.api.excluir('eventos', evento.id).pipe(finalize(() => this.excluindo.set(null))).subscribe({
+      next: () => this.eventos.update(lista => lista.filter(item => item.id !== evento.id)),
+      error: erro => this.erro.set(erroApi(erro, 'Não foi possível excluir o evento.')),
+    });
+  }
+}

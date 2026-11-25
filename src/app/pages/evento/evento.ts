@@ -1,53 +1,30 @@
-import { Component, ChangeDetectorRef, afterNextRender } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Component, inject } from '@angular/core';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { AsyncPipe } from '@angular/common';
+import { catchError, map, of, startWith, switchMap } from 'rxjs';
 import { Cabecalho } from '../../components/cabecalho/cabecalho';
 import { Rodape } from '../../components/rodape/rodape';
-import { ActivatedRoute } from '@angular/router';
-import { EventosService, EventoModel } from '../../services/eventos.service';
-import { CommonModule } from '@angular/common';
-
+import { Api, erroApi, imagemPadrao, moeda } from '../../core/api';
+import { Evento as EventoModel } from '../../core/modelos';
 
 @Component({
-  selector: 'app-evento',
-  imports: [Cabecalho, Rodape, CommonModule],
-  templateUrl: './evento.html',
-  styleUrl: './evento.css',
+  selector: 'app-evento', imports: [Cabecalho, Rodape, RouterLink, AsyncPipe, DatePipe],
+  templateUrl: './evento.html', styleUrl: './evento.css',
 })
 export class Evento {
+  private readonly api = inject(Api);
+  readonly imagemPadrao = imagemPadrao;
+  readonly moeda = moeda;
+  readonly estado = inject(ActivatedRoute).paramMap.pipe(
+    switchMap(params => this.api.detalhe(Number(params.get('id'))).pipe(
+      map(dados => ({ dados, erro: '', carregando: false })),
+      catchError(erro => of({ dados: null, erro: erroApi(erro, 'Evento não encontrado.'), carregando: false })),
+      startWith({ dados: null, erro: '', carregando: true }),
+    )),
+  );
 
-  evento?: EventoModel;
-
-  constructor(
-    private route: ActivatedRoute,
-    private eventosService: EventosService,
-    private cdr: ChangeDetectorRef
-  ) {
-    afterNextRender(() => {
-      const id = Number(this.route.snapshot.paramMap.get('id'));
-
-      if (!id) return;
-
-      this.eventosService.consultarId(id).subscribe((res) => {
-        this.evento = res;
-        this.cdr.detectChanges();
-        console.log(this.evento)
-      });
-
-    });
+  aberto(evento: EventoModel) {
+    return evento.status === 'ATIVO' && new Date(evento.dataFim).getTime() > Date.now();
   }
-
-formatarParaDate(data: string): string {
-  if (!data) return '';
-
-  const [ano, mes, dia] = data.split('-');
-  return `${dia}/${mes}/${ano}`;
-}
-
- formatarPreco(preco: number | null | undefined): string {
-  if (preco == null) return '';
-
-  return preco.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  });
-}
 }

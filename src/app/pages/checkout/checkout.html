@@ -1,0 +1,26 @@
+<app-cabecalho />
+<main class="g-container g-estreito">
+  <a class="g-link" [routerLink]="['/evento', idEvento]">← Voltar ao evento</a>
+  <h1 class="g-titulo">Revisar pedido</h1>
+  @if (carregando()) { <p role="status" class="g-nota">Carregando pedido…</p> }
+  @if (erro()) { <p class="g-alerta" role="alert">{{ erro() }}</p> }
+  @if (evento(); as eventoAtual) {
+    <form class="g-card g-pilha" (ngSubmit)="confirmar()">
+      <div><h2>{{ eventoAtual.titulo }}</h2><p class="g-nota">{{ eventoAtual.dataInicio | date:'dd/MM/yyyy • HH:mm' }}</p></div>
+      @if (tipos().length) {
+        <label class="g-campo">Tipo de ingresso
+          <select [ngModel]="idTipo()" (ngModelChange)="idTipo.set($event); quantidade.set(1)" name="tipo" [disabled]="enviando()">
+            @for (opcao of tipos(); track opcao.id) { <option [ngValue]="opcao.id">{{ opcao.nome }} · {{ moeda(opcao.preco) }}</option> }
+          </select>
+        </label>
+        <label class="g-campo">Quantidade (até {{ limite() }})
+          <input type="number" [ngModel]="quantidade()" (ngModelChange)="quantidade.set($event)" name="quantidade"
+            min="1" [max]="limite()" step="1" required [disabled]="enviando()">
+        </label>
+        <p class="g-flex g-entre"><strong>Total estimado</strong><strong>{{ moeda((tipo()?.preco ?? 0) * (quantidade() ?? 0)) }}</strong></p>
+        <p class="g-nota"><strong>Pagamento simulado.</strong> O valor final e a disponibilidade serão conferidos pela API ao confirmar.</p>
+        <button class="g-acao" [disabled]="enviando() || !quantidadeValida()">{{ enviando() ? 'Confirmando…' : 'Confirmar compra simulada' }}</button>
+      } @else { <p class="g-nota">Os ingressos disponíveis acabaram.</p> }
+    </form>
+  }
+</main>

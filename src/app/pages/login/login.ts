@@ -1,47 +1,44 @@
-import { Component } from '@angular/core';
-import { Cabecalho } from "../../components/cabecalho/cabecalho";
-import { Rodape } from "../../components/rodape/rodape";
-import { Router} from "@angular/router";
-import { LoginService } from '../../services/login.service';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
+import { Cabecalho } from '../../components/cabecalho/cabecalho';
+import { Rodape } from '../../components/rodape/rodape';
+import { erroApi } from '../../core/api';
+import { Sessao } from '../../core/sessao';
 
 @Component({
-  selector: 'app-login',
-  imports: [Cabecalho, Rodape, FormsModule],
+  selector: 'app-login', imports: [Cabecalho, Rodape, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  styleUrl: './login.css',
 })
 export class Login {
-  email = '';
-  senha = '';
-  mensagemErro = '';
-
-  constructor(private loginService: LoginService, private router: Router) {}
+  private readonly sessao = inject(Sessao);
+  private readonly router = inject(Router);
+  private readonly rota = inject(ActivatedRoute);
+  readonly mensagemErro = signal('');
+  readonly enviando = signal(false);
+  readonly formulario = inject(NonNullableFormBuilder).group({
+    email: ['', [Validators.required, Validators.email, Validators.maxLength(150)]],
+    senha: ['', [Validators.required, Validators.maxLength(72)]],
+  });
 
   entrar() {
-    if (!this.email || !this.senha) {
-      this.mensagemErro = "Preencha todos os campos!";
+    if (this.enviando()) return;
+    if (this.formulario.invalid) {
+      this.mensagemErro.set('Informe um e-mail válido e sua senha.');
       return;
     }
-
-    this.loginService.buscar(this.email).subscribe({
-      next: (resultado) => {
-        const usuarioEncontrado = resultado[0];
-
-        if (usuarioEncontrado && usuarioEncontrado.senha === this.senha) {
-          alert('Acesso concedido!');
-          
-          this.router.navigate(['/dashboardadm']); 
-        } else {
-          this.mensagemErro = "Usuário ou senha incorretos.";
-        }
+    this.mensagemErro.set('');
+    this.enviando.set(true);
+    const { email, senha } = this.formulario.getRawValue();
+    this.sessao.entrar(email.trim(), senha).pipe(finalize(() => this.enviando.set(false))).subscribe({
+      next: usuario => {
+        const voltar = this.rota.snapshot.queryParamMap.get('voltar');
+        const destino = voltar?.startsWith('/') && !voltar.startsWith('//') && !voltar.includes('\\')
+          ? voltar : usuario.role === 'ADMIN' ? '/dashboardadm' : '/perfil';
+        void this.router.navigateByUrl(destino);
       },
-
-       error: () => {
-        this.mensagemErro = "Erro ao conectar com o servidor.";
-  }
-
+      error: erro => this.mensagemErro.set(erroApi(erro, 'Não foi possível entrar. Confira seu e-mail e sua senha.')),
     });
   }
-
 }

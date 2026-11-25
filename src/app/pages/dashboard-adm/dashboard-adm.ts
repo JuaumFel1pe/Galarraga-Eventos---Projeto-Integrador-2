@@ -1,132 +1,53 @@
-import { Component, ChangeDetectorRef, afterNextRender } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { ChartConfiguration } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
-import { Chart, ChartConfiguration, registerables } from 'chart.js';
-import { forkJoin } from 'rxjs';
+import { finalize, forkJoin } from 'rxjs';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-import { Venda, VendasService } from '../../services/vendas.service';
-import { EventosService } from '../../services/eventos.service';
-import { EventoModel } from '../../services/eventos.service';
+import { Api, erroApi, moeda } from '../../core/api';
+import { Venda } from '../../core/modelos';
 
 @Component({
-  selector: 'app-dashboard-adm',
-  imports: [BaseChartDirective, CabecalhoAdm, MenuLateralAdm],
-  templateUrl: './dashboard-adm.html',
-  styleUrl: './dashboard-adm.css',
+  selector: 'app-dashboard-adm', imports: [BaseChartDirective, CabecalhoAdm, MenuLateralAdm, RouterLink],
+  templateUrl: './dashboard-adm.html', styleUrl: './dashboard-adm.css',
 })
 export class DashboardAdm {
-  vendas : Venda[] = []
-  eventos : EventoModel[] = []
-
-  dashboard = {
-    receita : 0,
-    ingressosVendidos : 0,
-    eventosAtivos : 0
-  }
-
-  constructor(private vendasApi : VendasService, private eventosApi : EventosService, private cdr: ChangeDetectorRef){
-    afterNextRender(() => {
-      this.informacoes();
-    }); //Vai mostrar as informações mesmo depois de tudo já ter sido renderizado no html
-  } //cdr serve para aplicar as mudanças no html que foram calculadas dps de serem renderizadas no html
-
-  buscarEventosAtivos(){
-    this.eventosApi.consultarAtivos().subscribe(resp => this.eventos = resp)
-  }
-
-  buscarVendas(){
-    this.vendasApi.consultar().subscribe(resp => this.vendas = resp)
-  }
-
-  informacoes() {
-    // O forkjoin serve para disparar as duas requisições e só fazer todos os cálculos quando tiver retorno das duas requisições
-    forkJoin({
-      eventosResp: this.eventosApi.consultarAtivos(),
-      vendasResp: this.vendasApi.consultar()
-    }).subscribe({
-      next: (resp) => {
-        // Só executa quando os dois endpoints já responderam com sucesso
-        this.eventos = resp.eventosResp;
-        this.vendas = resp.vendasResp;
-
-        console.log("Primeiro evento carregado:", this.vendas[0]);
-
-        // Agora é possível realizar os cálculos necessários
-        this.dashboard.eventosAtivos = this.eventos.length;
-        this.dashboard.ingressosVendidos = this.vendas.length;
-
-        this.dashboard.receita = 0; 
-        for(let i = 0; i < this.vendas.length; i++) {
-          this.dashboard.receita += this.vendas[i].valor;
-        }
-
-        this.cdr.detectChanges(); //Avisa ao angular que já pode mostrar os novos valores no html
-      },
-      error: (erro) => {
-        console.error("Erro nas APIs:", erro);
-        alert("Erro ao carregar informações da Dashboard do Administrador");
-      }
-    });
-  }
-
-  formatarPreco(valor: number | null): string {
-    if (valor === null) return '';
-    return `R$ ${valor.toFixed(2).replace('.', ',')}`;
-  }
-
-  graficoGastosTipo: 'bar' = 'bar';
-
-  graficoGastosData: ChartConfiguration<'bar'>['data'] = {
-    labels: ['', '', '', '', '', '', '', '', ''],
-    datasets: [
-      {
-        label: 'Valores',
-        data: [340, 240, 120, 300, 520, 430, 500, 300, 170],
-        backgroundColor: '#f3ebff',
-        borderRadius: 12,
-        borderSkipped: false,
-        barThickness: 6
-      }
-    ]
-  };
-
-  graficoOptions: ChartConfiguration<'bar'>['options'] = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        display: false
-      },
-      tooltip: {
-        enabled: true
-      }
-    },
-    scales: {
-      x: {
-        grid: {
-          display: false
-        },
-        ticks: {
-          color: '#ffffff'
-        },
-        border: {
-          display: false
-        }
-      },
-      y: {
-        beginAtZero: true,
-        max: 600,
-        ticks: {
-          color: '#ffffff',
-          stepSize: 100
-        },
-        grid: {
-          display: false
-        },
-        border: {
-          display: false
-        }
-      }
+  private readonly api = inject(Api);
+  readonly dados = signal<{ ativos: number; estoque: number; vendas: Venda[] } | null>(null);
+  readonly erro = signal('');
+  readonly carregando = signal(true);
+  readonly moeda = moeda;
+  readonly confirmadas = computed(() => this.dados()?.vendas.filter(venda => venda.status === 'CONFIRMADO') ?? []);
+  readonly receita = computed(() => this.confirmadas().reduce((total, venda) => total + venda.valorTotal, 0));
+  readonly vendidos = computed(() => this.confirmadas().reduce((total, venda) => total + venda.quantidade, 0));
+  readonly grafico = computed<ChartConfiguration<'bar'>['data']>(() => {
+    const dias = new Map<string, number>();
+    for (const venda of this.confirmadas()) {
+      const data = venda.dataPedido.slice(0, 10);
+      dias.set(data, (dias.get(data) ?? 0) + venda.valorTotal);
     }
+    const recentes = [...dias].sort(([a], [b]) => a.localeCompare(b)).slice(-7);
+    return {
+      labels: recentes.map(([data]) => data.split('-').reverse().join('/')),
+      datasets: [{ label: 'Vendas simuladas (R$)', data: recentes.map(([, total]) => total), backgroundColor: '#79469a', borderRadius: 8 }],
+    };
+  });
+  readonly opcoes: ChartConfiguration<'bar'>['options'] = {
+    responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } },
   };
+
+  ngOnInit() {
+    forkJoin({ eventos: this.api.eventos(), vendas: this.api.vendas(), tipos: this.api.tipos() })
+      .pipe(finalize(() => this.carregando.set(false))).subscribe({
+        next: ({ eventos, vendas, tipos }) => {
+          const ativos = new Set(eventos.filter(evento =>
+            evento.status === 'ATIVO' && new Date(evento.dataFim).getTime() > Date.now()).map(evento => evento.id));
+          const estoque = tipos.filter(tipo => ativos.has(tipo.idEvento))
+            .reduce((total, tipo) => total + tipo.quantidadeDisponivel, 0);
+          this.dados.set({ ativos: ativos.size, estoque, vendas });
+        },
+        error: erro => this.erro.set(erroApi(erro, 'Não foi possível carregar o painel.')),
+      });
+  }
 }

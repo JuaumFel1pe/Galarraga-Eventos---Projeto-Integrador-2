@@ -1,23 +1,30 @@
-<section>
-    <span id="separador"></span>
-
-    <h1><span id="cor">Eventos</span> Disponíveis</h1>
-
-   <div class="eventos">
-
-  @for(evento of evento; track evento.id){
-    <div class="card" [routerLink]="['/evento', evento.id]">
-
-      <div class="img-container">
-        <img [src]="evento?.urlImg">
-      </div>
-
-      <span class="separador-card"></span>
-
-      <h3>{{ evento?.nome }}</h3>
-
+<section id="eventos" class="g-container">
+  <div class="g-flex g-entre">
+    <h2 class="g-titulo">Eventos disponíveis</h2>
+    <label class="g-campo">Buscar eventos
+      <input type="search" placeholder="Nome, local ou categoria" [value]="busca()" (input)="busca.set($event.target.value)">
+    </label>
+  </div>
+  @if (carregando()) { <p role="status" class="g-nota">Carregando eventos…</p> }
+  @else if (erro()) {
+    <p class="g-alerta" role="alert">{{ erro() }}</p>
+    <button class="g-acao g-secundario" type="button" (click)="carregar()">Tentar novamente</button>
+  } @else {
+    <div class="eventos">
+      @for (evento of filtrados(); track evento.id) {
+        <article class="g-card card">
+          <img [src]="evento.bannerUrl || imagemPadrao" alt="" loading="lazy" (error)="$event.target.src = imagemPadrao">
+          <div class="dados g-pilha">
+            <p class="g-nota">{{ evento.dataInicio | date:'dd/MM/yyyy • HH:mm' }} · {{ evento.local }}</p>
+            <h3><a [routerLink]="['/evento', evento.id]">{{ evento.titulo }}</a></h3>
+            @if (evento.categoria) { <p class="g-nota">{{ evento.categoria }}</p> }
+            <div class="g-flex g-entre">
+              <strong>{{ evento.preco === null ? 'Sem ingressos disponíveis' : 'A partir de ' + moeda(evento.preco) }}</strong>
+              <a class="g-link" [routerLink]="['/evento', evento.id]">Ver evento</a>
+            </div>
+          </div>
+        </article>
+      } @empty { <p class="g-nota">{{ busca() ? 'Nenhum evento encontrado para essa busca.' : 'Nenhum evento disponível no momento.' }}</p> }
     </div>
   }
-
-</div>
 </section>

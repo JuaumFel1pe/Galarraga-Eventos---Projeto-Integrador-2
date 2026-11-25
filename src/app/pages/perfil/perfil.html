@@ -1,0 +1,44 @@
+<app-cabecalho />
+<main class="g-container g-pilha">
+  <h1 class="g-titulo">Minha conta</h1>
+  @if (sessao.usuario(); as usuario) {
+    <section class="g-card g-grid" aria-label="Seus dados">
+      <div><small class="g-nota">Nome</small><p>{{ usuario.nome }}</p></div>
+      <div><small class="g-nota">E-mail</small><p>{{ usuario.email }}</p></div>
+      <div><small class="g-nota">Telefone</small><p>{{ usuario.telefone || 'Não informado' }}</p></div>
+    </section>
+  }
+  <div class="g-flex g-entre"><h2>Meus pedidos</h2><a class="g-link" routerLink="/" fragment="eventos">Ver eventos</a></div>
+  @if (erro()) { <p class="g-alerta" role="alert">{{ erro() }}</p> }
+  @if (carregando()) { <p class="g-nota" role="status">Carregando seus pedidos…</p> }
+  @else if (!pedidos().length && !erro()) { <p class="g-card g-nota">Você ainda não fez nenhum pedido.</p> }
+  @for (pedido of pedidos(); track pedido.id) {
+    @if (veioDoCheckout && pedido.id === confirmado && pedido.status === 'CONFIRMADO') {
+      <p class="g-sucesso" role="status">Pedido #{{ pedido.id }} confirmado. Seus ingressos estão abaixo.</p>
+    }
+    <article class="g-card g-pilha">
+      <div class="g-flex g-entre">
+        <h3>Pedido #{{ pedido.id }}</h3>
+        <span class="g-tag">{{ pedido.status === 'CONFIRMADO' ? 'Confirmado' : 'Cancelado' }}</span>
+      </div>
+      <p class="g-nota">{{ pedido.dataPedido | date:'dd/MM/yyyy • HH:mm' }} · {{ moeda(pedido.valorTotal) }}</p>
+      <details [open]="pedido.id === confirmado">
+        <summary>Ver ingressos</summary>
+        <ul class="g-lista">
+          @for (item of pedido.itens; track item.id) {
+            <li><strong>{{ tipos().get(item.idTipoIngresso) || 'Ingresso' }}</strong> · {{ item.quantidade }} × {{ moeda(item.precoUnitario) }}
+              <ul class="g-lista">
+                @for (ingresso of item.ingressos; track ingresso.id) {
+                  <li><span class="g-codigo">{{ ingresso.codigoQr }}</span> · {{ ingresso.status === 'VALIDO' ? 'Válido' : ingresso.status === 'UTILIZADO' ? 'Utilizado' : 'Cancelado' }}</li>
+                }
+              </ul>
+            </li>
+          }
+        </ul>
+      </details>
+      @if (podeCancelar(pedido)) {
+        <div><button class="g-acao g-secundario" type="button" [disabled]="cancelando() !== null" (click)="cancelar(pedido)">Cancelar pedido</button></div>
+      }
+    </article>
+  }
+</main>

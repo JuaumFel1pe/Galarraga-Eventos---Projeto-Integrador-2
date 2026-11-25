@@ -53,3 +53,13 @@ background:white;
 border-radius:10px;
 flex-shrink:0; 
 }
+.imagem-V svg, .imagem-arredondada svg { display: block; max-width: 100%; height: auto; }
+@media (max-width: 960px) {
+  .sessao3 { padding: 2rem 1rem; }
+  .composicao { flex-direction: column; gap: 1.4rem; }
+  .imagem-V, .lado-direito { width: min(100%, 540px); height: auto; }
+  .lado-direito { align-items: center; text-align: center; }
+  .lado-direito h2 { font-size: clamp(1.5rem, 5vw, 2.5rem); }
+  .imagem-arredondada { width: 100%; height: auto; }
+  .linha { display: none; }
+}

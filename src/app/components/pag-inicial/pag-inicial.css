@@ -1,11 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 .sessao1 {
     background-color: #000;
     
 
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)), 
-                      url('../../../../public/GALARRAGA_EVENTOS_PI.png');
+                      url('/GALARRAGA_EVENTOS_PI.png');
         
     
     width: 100%;
@@ -74,3 +73,8 @@ background-color: #a91ad1;
   color: #ffffff;
   box-shadow: 0 0 12px #a91ad1;
 }
+
+.sessao1 { min-height: min(680px, 78vh); padding: 2rem 1rem; }
+.sessao1 h1 { font-size: clamp(2rem, 8vw, 5rem); overflow-wrap: anywhere; }
+.conteudo-central p { font-size: clamp(1rem, 3vw, 1.65rem); width: min(100%, 34rem); padding: 1.4rem 0; }
+#botao-contato { font-size: 1rem; }

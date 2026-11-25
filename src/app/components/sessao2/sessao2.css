@@ -77,7 +77,7 @@ section {
   max-width: 600px; 
 }
 
-.main-collage-box img {
+.main-collage-box svg {
   width: 100%;
   height: auto;
   display: block;

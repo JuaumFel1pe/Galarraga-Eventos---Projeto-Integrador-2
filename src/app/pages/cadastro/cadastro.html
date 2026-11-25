@@ -1,0 +1,22 @@
+<app-cabecalho />
+<main class="g-container g-estreito">
+  <form class="g-card g-pilha" [formGroup]="formulario" (ngSubmit)="cadastrar()">
+    <h1 class="g-titulo">Criar conta</h1>
+    @if (erro()) { <p class="g-alerta" role="alert">{{ erro() }}</p> }
+    <label class="g-campo">Nome <input formControlName="nome" autocomplete="name" maxlength="100"></label>
+    <label class="g-campo">E-mail <input type="email" formControlName="email" autocomplete="email" maxlength="150"></label>
+    <div class="g-grid">
+      <label class="g-campo">CPF <input formControlName="cpf" inputmode="numeric" maxlength="14"></label>
+      <label class="g-campo">Telefone (opcional) <input type="tel" formControlName="telefone" autocomplete="tel" maxlength="20"></label>
+    </div>
+    <label class="g-campo">Senha (mínimo de 8 caracteres)
+      <input type="password" formControlName="senha" autocomplete="new-password" minlength="8" maxlength="72">
+    </label>
+    <label class="g-campo">Confirme a senha
+      <input type="password" formControlName="repetir" autocomplete="new-password">
+    </label>
+    <button class="g-acao" [disabled]="enviando()">{{ enviando() ? 'Criando…' : 'Criar conta' }}</button>
+    <p class="g-nota">Já tem conta? <a class="g-link" routerLink="/login" queryParamsHandling="preserve">Entre</a>.</p>
+  </form>
+</main>
+<app-rodape />

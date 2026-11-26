@@ -1,13 +1,23 @@
 .login {
-    background-image: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), 
-                      url('../../../../public/restaurantegalarraga.jpeg');
-    background-size: cover;
-    background-position: center;
+    position: relative;
+    isolation: isolate;
+    background-color: #000;
     min-height: 100vh; 
     display: flex;
     align-items: center;
     justify-content: center; 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.login::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: url('../../../../public/restaurantegalarraga.jpeg') center / cover;
+    filter: var(--filtro-foto-evento);
+    opacity: 0.3;
+    pointer-events: none;
 }
 
 .login-card {

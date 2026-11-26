@@ -72,6 +72,7 @@
   height: auto;
   border-radius: 40px;
   object-fit: cover;
+  filter: var(--filtro-foto-evento);
 }
 
 /* --- CONTEÚDO CLARO --- */

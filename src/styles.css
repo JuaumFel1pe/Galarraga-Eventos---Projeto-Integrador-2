@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --filtro-foto-evento: saturate(0.65) contrast(0.84);
+}
+
 *{
     box-sizing: border-box;
     margin: 0px;

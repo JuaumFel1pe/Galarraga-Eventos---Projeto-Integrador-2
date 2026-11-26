@@ -72,6 +72,7 @@ section {
   height: calc(567 * var(--u));
   display: block;
   object-fit: contain;
+  filter: saturate(0.54) brightness(0.87) contrast(0.91);
 }
 
 svg {

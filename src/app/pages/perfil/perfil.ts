@@ -3,18 +3,20 @@ import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { finalize, forkJoin } from 'rxjs';
 import { Cabecalho } from '../../components/cabecalho/cabecalho';
-import { Api, erroApi, moeda } from '../../core/api';
-import { Pedido } from '../../core/modelos';
-import { Sessao } from '../../core/sessao';
+import { erroApi, moeda } from '../../services/api.utils';
+import { EventosService } from '../../services/eventos.service';
+import { LoginService } from '../../services/login.service';
+import { Pedido, PedidosService } from '../../services/pedidos.service';
 
 @Component({
   selector: 'app-perfil', imports: [Cabecalho, RouterLink, DatePipe],
   templateUrl: './perfil.html',
 })
 export class Perfil {
-  private readonly api = inject(Api);
+  private readonly eventosService = inject(EventosService);
+  private readonly pedidosService = inject(PedidosService);
   private readonly rota = inject(ActivatedRoute);
-  readonly sessao = inject(Sessao);
+  readonly sessao = inject(LoginService);
   readonly erro = signal('');
   readonly carregando = signal(true);
   readonly pedidos = signal<Pedido[]>([]);
@@ -25,7 +27,7 @@ export class Perfil {
   readonly moeda = moeda;
 
   ngOnInit() {
-    forkJoin({ pedidos: this.api.pedidos(), tipos: this.api.tipos() })
+    forkJoin({ pedidos: this.pedidosService.consultar(), tipos: this.eventosService.tipos() })
       .pipe(finalize(() => this.carregando.set(false))).subscribe({
         next: ({ pedidos, tipos }) => {
           this.pedidos.set(pedidos);
@@ -44,7 +46,7 @@ export class Perfil {
     if (this.cancelando() !== null || !window.confirm('Cancelar este pedido e invalidar seus ingressos?')) return;
     this.erro.set('');
     this.cancelando.set(pedido.id);
-    this.api.cancelar(pedido.id).pipe(finalize(() => this.cancelando.set(null))).subscribe({
+    this.pedidosService.cancelar(pedido.id).pipe(finalize(() => this.cancelando.set(null))).subscribe({
       next: atualizado => this.pedidos.update(lista => lista.map(item => item.id === atualizado.id ? atualizado : item)),
       error: erro => this.erro.set(erroApi(erro, 'Não foi possível cancelar o pedido.')),
     });

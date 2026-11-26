@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { exigirSessao } from './core/sessao';
+import { exigirSessao } from './services/login.service';
 import { Home } from './pages/home/home';
 import { Login } from './pages/login/login';
 import { CadastroPagina } from './pages/cadastro/cadastro';

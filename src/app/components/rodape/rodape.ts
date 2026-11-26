@@ -1,13 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
-import { Api } from '../../core/api';
-import { Configuracao } from '../../core/modelos';
+import { Configuracao, ConfiguracoesServices } from '../../services/configuracoes.services';
 
 @Component({ selector: 'app-rodape', templateUrl: './rodape.html', styleUrl: './rodape.css' })
 export class Rodape {
   readonly dados = signal<Configuracao | null>(null);
-  private readonly api = inject(Api);
+  private readonly configuracoesService = inject(ConfiguracoesServices);
 
   ngOnInit() {
-    this.api.configuracao().subscribe({ next: dados => this.dados.set(dados), error: () => undefined });
+    this.configuracoesService.buscar().subscribe({ next: dados => this.dados.set(dados), error: () => undefined });
   }
 }

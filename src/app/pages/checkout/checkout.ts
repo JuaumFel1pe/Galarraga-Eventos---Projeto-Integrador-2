@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { Cabecalho } from '../../components/cabecalho/cabecalho';
-import { Api, erroApi, moeda } from '../../core/api';
-import { Evento, TipoIngresso } from '../../core/modelos';
-import { Pagamento } from '../../core/pagamento';
+import { erroApi, moeda } from '../../services/api.utils';
+import { Evento, EventosService, TipoIngresso } from '../../services/eventos.service';
+import { PedidosService } from '../../services/pedidos.service';
 
 @Component({
   selector: 'app-checkout', imports: [Cabecalho, RouterLink, FormsModule, DatePipe],
   templateUrl: './checkout.html',
 })
 export class Checkout {
-  private readonly api = inject(Api);
-  private readonly pagamento = inject(Pagamento);
+  private readonly eventosService = inject(EventosService);
+  private readonly pedidosService = inject(PedidosService);
   private readonly rota = inject(ActivatedRoute);
   private readonly router = inject(Router);
   readonly idEvento = Number(this.rota.snapshot.paramMap.get('id'));
@@ -34,7 +34,7 @@ export class Checkout {
   readonly moeda = moeda;
 
   ngOnInit() {
-    this.api.detalhe(this.idEvento).pipe(finalize(() => this.carregando.set(false))).subscribe({
+    this.eventosService.detalhe(this.idEvento).pipe(finalize(() => this.carregando.set(false))).subscribe({
       next: ({ evento, tipos }) => {
         if (evento.status !== 'ATIVO' || new Date(evento.dataFim).getTime() <= Date.now()) {
           this.erro.set('Este evento não está disponível para compra.');
@@ -54,7 +54,7 @@ export class Checkout {
     if (this.enviando() || !this.quantidadeValida() || quantidade === null) return;
     this.enviando.set(true);
     this.erro.set('');
-    this.pagamento.confirmar([{ idTipoIngresso: this.idTipo(), quantidade }])
+    this.pedidosService.confirmar([{ idTipoIngresso: this.idTipo(), quantidade }])
       .pipe(finalize(() => this.enviando.set(false))).subscribe({
         next: pedido => void this.router.navigate(['/perfil'], { queryParams: { pedido: pedido.id, confirmado: 'sim' } }),
         error: erro => this.erro.set(erroApi(erro, 'Não foi possível confirmar o pedido. Confira seu histórico antes de tentar de novo.')),

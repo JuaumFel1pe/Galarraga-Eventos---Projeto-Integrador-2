@@ -4,8 +4,8 @@ import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-import { Api, erroApi } from '../../core/api';
-import { Evento } from '../../core/modelos';
+import { erroApi } from '../../services/api.utils';
+import { EventosService, Evento } from '../../services/eventos.service';
 
 interface LinhaEvento extends Evento {
   local: string;
@@ -17,7 +17,7 @@ interface LinhaEvento extends Evento {
   templateUrl: './meus-eventos.html',
 })
 export class MeusEventos {
-  private readonly api = inject(Api);
+  private readonly eventosService = inject(EventosService);
   readonly eventos = signal<LinhaEvento[]>([]);
   readonly filtroNome = signal('');
   readonly filtroStatus = signal('');
@@ -32,7 +32,7 @@ export class MeusEventos {
 
   buscar() {
     this.carregando.set(true);
-    this.api.catalogo().pipe(finalize(() => this.carregando.set(false))).subscribe({
+    this.eventosService.catalogo().pipe(finalize(() => this.carregando.set(false))).subscribe({
       next: ({ eventos, locais, tipos }) => this.eventos.set(eventos.map(evento => ({
         ...evento,
         local: locais.find(local => local.id === evento.idLocal)?.nome ?? 'Local indisponível',
@@ -47,7 +47,7 @@ export class MeusEventos {
     if (this.excluindo() !== null || !window.confirm('Excluir o evento ' + evento.titulo + '?')) return;
     this.erro.set('');
     this.excluindo.set(evento.id);
-    this.api.excluir('eventos', evento.id).pipe(finalize(() => this.excluindo.set(null))).subscribe({
+    this.eventosService.excluir('eventos', evento.id).pipe(finalize(() => this.excluindo.set(null))).subscribe({
       next: () => this.eventos.update(lista => lista.filter(item => item.id !== evento.id)),
       error: erro => this.erro.set(erroApi(erro, 'Não foi possível excluir o evento.')),
     });

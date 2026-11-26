@@ -4,15 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-import { Api, erroApi, moeda } from '../../core/api';
-import { Venda } from '../../core/modelos';
+import { erroApi, moeda } from '../../services/api.utils';
+import { PedidosService } from '../../services/pedidos.service';
+import { Venda, VendasService } from '../../services/vendas.service';
 
 @Component({
   selector: 'app-vendas', imports: [CabecalhoAdm, MenuLateralAdm, FormsModule, DatePipe],
   templateUrl: './vendas.html',
 })
 export class Vendas {
-  private readonly api = inject(Api);
+  private readonly vendasService = inject(VendasService);
+  private readonly pedidosService = inject(PedidosService);
   readonly vendas = signal<Venda[]>([]);
   readonly erro = signal('');
   readonly erroCheckIn = signal('');
@@ -27,7 +29,7 @@ export class Vendas {
 
   buscar() {
     this.carregando.set(true);
-    this.api.vendas().pipe(finalize(() => this.carregando.set(false))).subscribe({
+    this.vendasService.consultar().pipe(finalize(() => this.carregando.set(false))).subscribe({
       next: vendas => this.vendas.set(vendas),
       error: erro => this.erro.set(erroApi(erro, 'Não foi possível listar as vendas.')),
     });
@@ -38,7 +40,7 @@ export class Vendas {
     this.validando.set(true);
     this.erroCheckIn.set('');
     this.sucesso.set('');
-    this.api.checkIn(this.codigo.trim()).pipe(finalize(() => this.validando.set(false))).subscribe({
+    this.vendasService.checkIn(this.codigo.trim()).pipe(finalize(() => this.validando.set(false))).subscribe({
       next: ingresso => {
         this.sucesso.set('Check-in registrado para o ingresso #' + ingresso.id + '.');
         this.codigo = '';
@@ -52,7 +54,7 @@ export class Vendas {
     if (this.cancelando() !== null || !window.confirm('Cancelar o pedido #' + venda.id + '?')) return;
     this.cancelando.set(venda.id);
     this.erro.set('');
-    this.api.cancelar(venda.id).pipe(finalize(() => this.cancelando.set(null))).subscribe({
+    this.pedidosService.cancelar(venda.id).pipe(finalize(() => this.cancelando.set(null))).subscribe({
       next: pedido => this.vendas.update(vendas => vendas.map(item => item.id === pedido.id
         ? { ...item, status: pedido.status, cancelavel: false } : item)),
       error: erro => this.erro.set(erroApi(erro, 'Não foi possível cancelar o pedido.')),

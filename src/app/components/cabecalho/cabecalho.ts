@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { Sessao } from '../../core/sessao';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-cabecalho',
@@ -9,7 +9,7 @@ import { Sessao } from '../../core/sessao';
   styleUrl: './cabecalho.css',
 })
 export class Cabecalho {
-  readonly sessao = inject(Sessao);
+  readonly sessao = inject(LoginService);
   private readonly router = inject(Router);
 
   ngOnInit() {

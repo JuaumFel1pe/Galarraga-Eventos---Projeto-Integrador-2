@@ -4,15 +4,15 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, forkJoin, of } from 'rxjs';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-import { Api, erroApi } from '../../core/api';
-import { Categoria, Evento, LocalEvento } from '../../core/modelos';
+import { erroApi } from '../../services/api.utils';
+import { EventosService, Categoria, Evento, LocalEvento } from '../../services/eventos.service';
 
 @Component({
   selector: 'app-alterar-evento', imports: [FormsModule, RouterLink, CabecalhoAdm, MenuLateralAdm],
   templateUrl: './alterar-evento.html',
 })
 export class AlterarEvento {
-  private readonly api = inject(Api);
+  private readonly eventosService = inject(EventosService);
   private readonly rota = inject(ActivatedRoute);
   private readonly router = inject(Router);
   readonly idSelecionado = Number(this.rota.snapshot.paramMap.get('id')) || undefined;
@@ -27,8 +27,11 @@ export class AlterarEvento {
   };
 
   ngOnInit() {
-    forkJoin({ locais: this.api.locais(), categorias: this.api.categorias(),
-      evento: this.idSelecionado ? this.api.evento(this.idSelecionado) : of(null) })
+    forkJoin({
+      locais: this.eventosService.locais(),
+      categorias: this.eventosService.categorias(),
+      evento: this.idSelecionado ? this.eventosService.consultarId(this.idSelecionado) : of(null),
+    })
       .pipe(finalize(() => this.carregando.set(false))).subscribe({
         next: ({ locais, categorias, evento }) => {
           this.locais.set(locais);
@@ -50,7 +53,7 @@ export class AlterarEvento {
     }
     this.enviando.set(true);
     this.erro.set('');
-    this.api.salvar<Evento>('eventos', this.evento, this.idSelecionado)
+    this.eventosService.salvar<Evento>('eventos', this.evento, this.idSelecionado)
       .pipe(finalize(() => this.enviando.set(false))).subscribe({
         next: () => void this.router.navigateByUrl('/meus-eventos'),
         error: erro => this.erro.set(erroApi(erro, 'Não foi possível salvar o evento.')),

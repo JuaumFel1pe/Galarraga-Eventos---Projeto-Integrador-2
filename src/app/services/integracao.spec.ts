@@ -2,12 +2,12 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
-import { Pagamento } from './pagamento';
-import { Sessao, autenticacao } from './sessao';
+import { LoginService, autenticacao } from './login.service';
+import { PedidosService } from './pedidos.service';
 
 describe('Integração com a API Galarraga', () => {
   let requests: HttpTestingController;
-  let sessao: Sessao;
+  let sessao: LoginService;
 
   beforeEach(() => {
     sessionStorage.removeItem('galarraga.token');
@@ -15,7 +15,7 @@ describe('Integração com a API Galarraga', () => {
       providers: [provideHttpClient(withInterceptors([autenticacao])), provideHttpClientTesting()],
     });
     requests = TestBed.inject(HttpTestingController);
-    sessao = TestBed.inject(Sessao);
+    sessao = TestBed.inject(LoginService);
   });
 
   afterEach(() => { sessao.sair(); requests.verify(); });
@@ -32,7 +32,7 @@ describe('Integração com a API Galarraga', () => {
     await expect(entrar).resolves.toMatchObject({ role: 'USER' });
 
     const selecao = [{ idTipoIngresso: 1, quantidade: 2 }];
-    const confirmar = firstValueFrom(TestBed.inject(Pagamento).confirmar(selecao));
+    const confirmar = firstValueFrom(TestBed.inject(PedidosService).confirmar(selecao));
     const pedido = requests.expectOne('/api/pedidos');
     expect(pedido.request.headers.get('Authorization')).toBe('Bearer exemplo');
     expect(pedido.request.body).toEqual({ itens: selecao });

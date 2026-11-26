@@ -4,15 +4,15 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { finalize, switchMap } from 'rxjs';
 import { Cabecalho } from '../../components/cabecalho/cabecalho';
 import { Rodape } from '../../components/rodape/rodape';
-import { erroApi } from '../../core/api';
-import { Sessao } from '../../core/sessao';
+import { erroApi } from '../../services/api.utils';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-cadastro', imports: [Cabecalho, Rodape, ReactiveFormsModule, RouterLink],
   templateUrl: './cadastro.html',
 })
 export class CadastroPagina {
-  private readonly sessao = inject(Sessao);
+  private readonly sessao = inject(LoginService);
   private readonly router = inject(Router);
   private readonly rota = inject(ActivatedRoute);
   readonly erro = signal('');

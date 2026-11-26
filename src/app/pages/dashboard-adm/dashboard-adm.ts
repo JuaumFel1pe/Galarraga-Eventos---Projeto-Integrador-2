@@ -5,15 +5,17 @@ import { BaseChartDirective } from 'ng2-charts';
 import { finalize, forkJoin } from 'rxjs';
 import { CabecalhoAdm } from '../../components/cabecalho-adm/cabecalho-adm';
 import { MenuLateralAdm } from '../../components/menu-lateral-adm/menu-lateral-adm';
-import { Api, erroApi, moeda } from '../../core/api';
-import { Venda } from '../../core/modelos';
+import { erroApi, moeda } from '../../services/api.utils';
+import { EventosService } from '../../services/eventos.service';
+import { Venda, VendasService } from '../../services/vendas.service';
 
 @Component({
   selector: 'app-dashboard-adm', imports: [BaseChartDirective, CabecalhoAdm, MenuLateralAdm, RouterLink],
   templateUrl: './dashboard-adm.html', styleUrl: './dashboard-adm.css',
 })
 export class DashboardAdm {
-  private readonly api = inject(Api);
+  private readonly eventosService = inject(EventosService);
+  private readonly vendasService = inject(VendasService);
   readonly dados = signal<{ ativos: number; estoque: number; vendas: Venda[] } | null>(null);
   readonly erro = signal('');
   readonly carregando = signal(true);
@@ -38,7 +40,11 @@ export class DashboardAdm {
   };
 
   ngOnInit() {
-    forkJoin({ eventos: this.api.eventos(), vendas: this.api.vendas(), tipos: this.api.tipos() })
+    forkJoin({
+      eventos: this.eventosService.consultar(),
+      vendas: this.vendasService.consultar(),
+      tipos: this.eventosService.tipos(),
+    })
       .pipe(finalize(() => this.carregando.set(false))).subscribe({
         next: ({ eventos, vendas, tipos }) => {
           const ativos = new Set(eventos.filter(evento =>

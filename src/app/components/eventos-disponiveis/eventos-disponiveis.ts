@@ -1,8 +1,8 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { Api, erroApi, imagemPadrao, moeda } from '../../core/api';
-import { Evento } from '../../core/modelos';
+import { erroApi, moeda } from '../../services/api.utils';
+import { EventosService, Evento, imagemPadrao } from '../../services/eventos.service';
 
 interface CardEvento extends Evento {
   local: string;
@@ -16,7 +16,7 @@ interface CardEvento extends Evento {
   templateUrl: './eventos-disponiveis.html', styleUrl: './eventos-disponiveis.css',
 })
 export class EventosDisponiveis {
-  private readonly api = inject(Api);
+  private readonly eventosService = inject(EventosService);
   readonly eventos = signal<CardEvento[]>([]);
   readonly busca = signal('');
   readonly erro = signal('');
@@ -34,7 +34,7 @@ export class EventosDisponiveis {
   carregar() {
     this.carregando.set(true);
     this.erro.set('');
-    this.api.catalogo().subscribe({
+    this.eventosService.catalogo().subscribe({
       next: ({ eventos, categorias, locais, tipos }) => {
         this.eventos.set(eventos
           .filter(evento => evento.status === 'ATIVO' && new Date(evento.dataFim).getTime() > Date.now())

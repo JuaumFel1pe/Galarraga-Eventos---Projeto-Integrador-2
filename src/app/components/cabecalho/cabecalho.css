@@ -1,92 +1,125 @@
-*{
-    /* box-sizing: border-box; */
-
-    margin: 0px;
+@font-face {
+    font-family: 'Della Respira';
+    src: url('../../../../public/fonts/della-respira.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
 }
 
-nav{
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+@font-face {
+    font-family: Roboto;
+    src: url('../../../../public/fonts/roboto.woff2') format('woff2');
+    font-weight: 400 700;
+    font-display: swap;
+}
 
-    background-color: #E6E6E6;
-
-    justify-content:space-between;
-    align-items: center;
-    padding: 5px 20px;
+:host {
+    display: block;
     position: sticky;
     top: 0;
+    z-index: 100;
+    pointer-events: none;
 }
 
-.logo-pesquisa{
-    width: 40%;
-
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-}
-
-#logo{
-    width: 10%;
-    height: 0%;
-}
-
-#logo:hover{
-    cursor: pointer;
-}
-
-.barra-pesquisa{
+nav {
+    --roxo: #a91ad1;
+    --fundo: #e6e6e6;
     display: flex;
     align-items: center;
-    flex-direction: row;
-    width: 80%;
-
-    position: relative;
-    
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 57px;
+    padding-inline: 19px 30px;
+    background: var(--fundo);
+    transition: transform 180ms ease-out;
+    pointer-events: auto;
 }
 
-.barra-pesquisa > input{
-    width: 100%;
-    height: 80%;
-    border: none;
-    outline: none;
-    background-color: #D9D9D9;
-    padding: 8px;
-    border-radius: 100px;
-
-    font-size: 15px;
+:host(.oculto) nav:not(:has(:focus-visible)) {
+    transform: translateY(-100%);
+    pointer-events: none;
 }
 
-#lupa{
-    width: 25px;
-    height: 25px;
-    right: 2%;
-
-    
-    position:absolute;
+.marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    color: #000;
+    font: 13px 'Della Respira', Georgia, serif;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
-.buttons{
-    width: 20%;
+.marca img {
+    display: block;
+    width: 31px;
+    height: 31px;
+    object-fit: cover;
+}
+
+.acoes {
     display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+    align-items: center;
+    gap: 11.5px;
 }
 
-.buttons button{
-    border-radius: 100px;
-    padding: 10px 30px;
-    color: #A91AD1;
-    font-size: 15px;
-
-    border: 3px solid #A91AD1;
-    background: none;
+.acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30.57px;
+    padding: 0 6px;
+    border: 1px solid var(--roxo);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--roxo);
+    font: 400 11.5px/1 Roboto, Arial, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
 }
 
-.buttons button:hover{
-    cursor: pointer;
-    background-color: #a91ad1;
-    color: #ffffff;
-    box-shadow: 0 0 12px #a91ad1;
+.eventos {
+    width: 115px;
+}
+
+.criar-conta {
+    width: 115px;
+    opacity: 1;
+}
+
+.entrar {
+    width: 62px;
+    background: var(--roxo);
+    color: var(--fundo);
+    font-weight: 700;
+}
+
+a:focus-visible {
+    outline: 2px solid var(--roxo);
+    outline-offset: 2px;
+}
+
+.acao:not(:disabled):hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 450px) {
+    nav {
+        padding-inline: 8px;
+    }
+
+    .acoes {
+        gap: 4px;
+    }
+
+    .acao {
+        width: auto;
+        min-height: 28px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    nav {
+        transition: none;
+    }
 }

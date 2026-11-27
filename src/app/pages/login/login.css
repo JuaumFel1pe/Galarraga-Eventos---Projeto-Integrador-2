@@ -14,9 +14,9 @@
     position: absolute;
     inset: 0;
     z-index: -1;
-    background: url('/restaurantegalarraga.jpeg') center / cover;
+    background: url('/fundo-login.png') center / cover;
     filter: var(--filtro-foto-evento, saturate(0.65) contrast(0.84));
-    opacity: 0.3;
+    opacity: 0.22;
     pointer-events: none;
 }
 
@@ -91,7 +91,7 @@ input::placeholder {
     color: red;
 }
 
-.login { padding: 1rem; }
+.login { padding: 1rem 1rem 3rem; }
 .login-card { padding: clamp(1.3rem, 6vw, 3.1rem); }
 .login-card label { display: block; text-align: left; }
 .login-card h1, .btn-continuar { color: #662980; }

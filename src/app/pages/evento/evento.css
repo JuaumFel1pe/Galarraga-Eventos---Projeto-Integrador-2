@@ -168,7 +168,7 @@
 .voltar { color: #eed8fb; display: inline-block; margin-bottom: .75rem; }
 .header-image img { width: min(100%, 560px); max-width: 100%; max-height: 350px; }
 .description p { white-space: pre-line; }
-.ticket-card .g-lista { width: 100%; }
-.ticket-card .btn-buy { display: table; margin-top: .55rem; text-decoration: none; color: #742f8b; }
+.ticket-card .g-lista { width: 100%; text-align: center; }
+.ticket-card .btn-buy { display: table; margin: .55rem auto 0; text-decoration: none; color: #742f8b; }
 .ticket-card .btn-buy:hover { color: white; }
 @media (max-width: 800px) { .ticket-sidebar { justify-content: flex-start; } }

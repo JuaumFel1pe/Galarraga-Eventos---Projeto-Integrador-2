@@ -1,5 +1,150 @@
-nav { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .75rem;
-  padding: .65rem clamp(1rem, 5vw, 4rem); background: #fff; border-bottom: 1px solid var(--linha); }
-.marca { display: inline-flex; align-items: center; gap: .6rem; color: #311545;
-  text-decoration: none; font-weight: 780; }
-.marca img { border-radius: 8px; object-fit: contain; }
+@font-face {
+    font-family: 'Della Respira';
+    src: url('../../../../public/fonts/della-respira.woff2') format('woff2');
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: Roboto;
+    src: url('../../../../public/fonts/roboto.woff2') format('woff2');
+    font-weight: 400 700;
+    font-display: swap;
+}
+
+:host {
+    display: block;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    pointer-events: none;
+}
+
+nav {
+    --roxo: #a91ad1;
+    --fundo: #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 57px;
+    padding-inline: 19px 30px;
+    background: var(--fundo);
+    transition: transform 180ms ease-out;
+    pointer-events: auto;
+}
+
+:host(.oculto) nav:not(:has(:focus-visible)) {
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    flex-shrink: 0;
+    color: #000;
+    font: 13px 'Della Respira', Georgia, serif;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.marca img {
+    display: block;
+    width: 31px;
+    height: 31px;
+    object-fit: cover;
+}
+
+.acoes {
+    display: flex;
+    align-items: center;
+    gap: 11.5px;
+}
+
+.acao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 30.57px;
+    padding: 0 6px;
+    border: 1px solid var(--roxo);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--roxo);
+    font: 400 11.5px/1 Roboto, Arial, sans-serif;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.eventos,
+.criar-conta,
+.minha-conta {
+    width: 115px;
+}
+
+.painel,
+.sair {
+    width: 62px;
+}
+
+.sair {
+    cursor: pointer;
+}
+
+.entrar {
+    width: 62px;
+    background: var(--roxo);
+    color: var(--fundo);
+    font-weight: 700;
+}
+
+.marca:focus-visible,
+.acao:focus-visible {
+    outline: 2px solid var(--roxo);
+    outline-offset: 2px;
+}
+
+.acao:hover {
+    background: var(--roxo);
+    color: #fff;
+    box-shadow: 0 0 12px var(--roxo);
+}
+
+@media (max-width: 600px) {
+    .acoes:has(.painel) .acao {
+        width: auto;
+    }
+}
+
+@media (max-width: 450px) {
+    nav {
+        padding: 4px 8px;
+    }
+
+    .marca {
+        flex-shrink: 1;
+        white-space: normal;
+    }
+
+    .acoes {
+        max-width: 66%;
+        flex-shrink: 0;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+        gap: 4px;
+    }
+
+    .acao {
+        width: auto;
+        min-height: 28px;
+        padding-inline: 3px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    nav {
+        transition: none;
+    }
+}

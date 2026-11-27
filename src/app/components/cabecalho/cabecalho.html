@@ -1,16 +1,17 @@
 <nav aria-label="Navegação principal">
   <a routerLink="/" class="marca">
-    <img src="/GALARRAGA_EVENTOS_PI.png" alt="" width="42" height="42"> Galarraga Eventos
+    <img src="logo-cabecalho.png" alt="" width="31" height="31">
+    <span>Galarraga Eventos</span>
   </a>
-  <div class="g-flex">
-    <a class="g-link" routerLink="/" fragment="eventos">Eventos</a>
+  <div class="acoes">
+    <a class="acao eventos" routerLink="/" fragment="eventos">Eventos</a>
     @if (sessao.usuario(); as usuario) {
-      @if (usuario.role === 'ADMIN') { <a class="g-link" routerLink="/dashboardadm">Painel</a> }
-      <a class="g-link" routerLink="/perfil">Minha conta</a>
-      <button class="g-acao g-secundario" type="button" (click)="sair()">Sair</button>
+      @if (usuario.role === 'ADMIN') { <a class="acao painel" routerLink="/dashboardadm">Painel</a> }
+      <a class="acao minha-conta" routerLink="/perfil">Minha conta</a>
+      <button class="acao sair" type="button" (click)="sair()">Sair</button>
     } @else {
-      <a class="g-link" routerLink="/cadastro">Criar conta</a>
-      <a class="g-acao" routerLink="/login">Entrar</a>
+      <a class="acao criar-conta" routerLink="/cadastro">Criar conta</a>
+      <a class="acao entrar" routerLink="/login">Entrar</a>
     }
   </div>
 </nav>

@@ -28,8 +28,14 @@
           </label>
         </div>
         <div class="g-grid">
-          <label class="g-campo">Início <input type="datetime-local" name="inicio" required [(ngModel)]="evento.dataInicio"></label>
-          <label class="g-campo">Fim <input type="datetime-local" name="fim" required [(ngModel)]="evento.dataFim"></label>
+          <label class="g-campo">Início
+            <input type="datetime-local" name="inicio" required [(ngModel)]="evento.dataInicio"
+              [attr.min]="dataMinima()" (focus)="atualizarDataMinima()">
+          </label>
+          <label class="g-campo">Fim
+            <input type="datetime-local" name="fim" required [(ngModel)]="evento.dataFim"
+              [attr.min]="dataMinima()" (focus)="atualizarDataMinima()">
+          </label>
         </div>
         <label class="g-campo">Banner (URL ou caminho local) <input name="banner" maxlength="255" [(ngModel)]="evento.bannerUrl"></label>
         <label class="g-campo">Descrição <textarea name="descricao" [(ngModel)]="evento.descricao"></textarea></label>

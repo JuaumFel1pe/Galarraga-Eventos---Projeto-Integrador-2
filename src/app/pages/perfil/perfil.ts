@@ -11,6 +11,7 @@ import { Pedido, PedidosService } from '../../services/pedidos.service';
 @Component({
   selector: 'app-perfil', imports: [Cabecalho, RouterLink, DatePipe],
   templateUrl: './perfil.html',
+  host: { '(document:visibilitychange)': 'aoVoltarParaAba()' },
 })
 export class Perfil {
   private readonly eventosService = inject(EventosService);
@@ -22,6 +23,9 @@ export class Perfil {
   readonly pedidos = signal<Pedido[]>([]);
   readonly tipos = signal(new Map<number, string>());
   readonly cancelando = signal<number | null>(null);
+  readonly sincronizando = signal<number | null>(null);
+  readonly pagamentoConfirmado = signal<number | null>(null);
+  private pagamentoAberto: number | null = null;
   readonly confirmado = Number(this.rota.snapshot.queryParamMap.get('pedido'));
   readonly veioDoCheckout = this.rota.snapshot.queryParamMap.get('confirmado') === 'sim';
   readonly moeda = moeda;
@@ -32,13 +36,17 @@ export class Perfil {
         next: ({ pedidos, tipos }) => {
           this.pedidos.set(pedidos);
           this.tipos.set(new Map(tipos.map(tipo => [tipo.id, tipo.nome])));
+          const pendente = pedidos.find(p => p.id === this.confirmado && p.status === 'PENDENTE_PAGAMENTO');
+          if (pendente && (pendente.urlPagamento || this.rota.snapshot.queryParamMap.get('mercadoPago') === 'sim')) {
+            this.sincronizar(pendente);
+          }
         },
         error: erro => this.erro.set(erroApi(erro, 'Não foi possível carregar seus pedidos.')),
       });
   }
 
   podeCancelar(pedido: Pedido) {
-    return pedido.status === 'CONFIRMADO' && pedido.itens.every(item =>
+    return !pedido.mercadoPago && pedido.status === 'CONFIRMADO' && pedido.itens.every(item =>
       item.ingressos.every(ingresso => ingresso.status !== 'UTILIZADO'));
   }
 
@@ -50,5 +58,28 @@ export class Perfil {
       next: atualizado => this.pedidos.update(lista => lista.map(item => item.id === atualizado.id ? atualizado : item)),
       error: erro => this.erro.set(erroApi(erro, 'Não foi possível cancelar o pedido.')),
     });
+  }
+
+  sincronizar(pedido: Pedido) {
+    if (this.sincronizando() !== null) return;
+    this.erro.set('');
+    this.sincronizando.set(pedido.id);
+    this.pedidosService.sincronizarPagamento(pedido.id).pipe(finalize(() => this.sincronizando.set(null))).subscribe({
+      next: atualizado => {
+        this.pedidos.update(lista => lista.map(item => item.id === atualizado.id ? atualizado : item));
+        if (atualizado.status === 'CONFIRMADO') this.pagamentoConfirmado.set(atualizado.id);
+      },
+      error: erro => this.erro.set(erro.error?.detail || erroApi(erro, 'Não foi possível consultar o Mercado Pago.')),
+    });
+  }
+
+  acompanharPagamento(id: number) {
+    this.pagamentoAberto = id;
+  }
+
+  aoVoltarParaAba() {
+    if (document.visibilityState !== 'visible') return;
+    const pendente = this.pedidos().find(p => p.id === this.pagamentoAberto && p.status === 'PENDENTE_PAGAMENTO');
+    if (pendente) this.sincronizar(pendente);
   }
 }

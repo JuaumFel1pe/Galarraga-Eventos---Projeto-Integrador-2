@@ -1,5 +1,113 @@
-.eventos { display: grid; grid-template-columns: repeat(auto-fill,minmax(min(100%,280px),1fr)); gap: 1rem; margin-top: 1rem; }
-.card { padding: 0; overflow: hidden; }
-.card img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; display: block; background: #2b133a; }
-.dados { padding: 1rem 1.15rem; gap: .55rem; }
-h3 a { text-decoration: none; color: var(--roxo-escuro); }
+section{
+  width: 100%;
+  min-height: min(72.9868vw, 997px);
+  background-image: url('/fundo_eventos_disponiveis.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: clamp(60px, 11.713vw, 160px) 20px clamp(48px, 4.246vw, 58px);
+  gap: 40px;
+}
+
+/* SEPARADOR PRINCIPAL */
+#separador{
+  width: 120px;
+  height: 5px;
+  background: #6C5893;
+  border-radius: 20px;
+}
+
+/* TÍTULO */
+h2{
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+  font-weight: 800;
+  font-size: clamp(32px, 4.6852vw, 64px);
+  text-align: center;
+
+  color: #fff;
+  -webkit-text-stroke: 2px #11032B;
+  margin: 0;
+}
+
+/* COR DIFERENTE NO TEXTO */
+#cor{
+  color: #6C5893;
+}
+
+/* GRID DOS EVENTOS */
+.eventos{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 30px;
+
+  width: min(100%, 1200px);
+  max-width: 1200px;
+}
+
+/* CARD */
+.card{
+  background-color: #11032B;
+  border-radius: 30px;
+  padding: 20px 40px 70px 40px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+  box-shadow: 0px 10px 25px rgba(0,0,0,0.4);
+}
+
+/* HOVER DO CARD */
+.card:hover{
+  transform: translateY(-10px);
+  box-shadow: 0px 15px 35px rgba(0,0,0,0.6);
+}
+
+/* CONTAINER DA IMAGEM */
+.img-container{
+  width: 100%;
+  height: 250px;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+/* IMAGEM */
+.img-container img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* SEPARADOR DO CARD */
+.separador-card{
+  width: 80px;
+  height: 4px;
+  margin: 15px 0;
+
+  background: #6C5893;
+  border-radius: 10px;
+}
+
+/* TEXTO DO CARD */
+.card h3{
+  color: #fff;
+  font-size: 25px;
+  text-align: center;
+  margin: 0;
+}
+
+.card { text-decoration: none; color: white; padding: clamp(16px, 3vw, 40px); }
+.card p { color: #eee4f5; text-align: center; margin-top: .5rem; }
+.busca { width: min(100%, 350px); color: white; }
+.estado { color: white; }
+@media (max-width: 600px) { .img-container { height: 180px; } }

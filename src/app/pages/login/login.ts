@@ -10,6 +10,7 @@ import { LoginService } from '../../services/login.service';
 @Component({
   selector: 'app-login', imports: [Cabecalho, Rodape, ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
+  styleUrl: './login.css',
 })
 export class Login {
   private readonly sessao = inject(LoginService);

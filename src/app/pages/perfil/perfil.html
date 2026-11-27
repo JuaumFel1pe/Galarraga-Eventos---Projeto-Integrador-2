@@ -13,29 +13,44 @@
   @if (carregando()) { <p class="g-nota" role="status">Carregando seus pedidos…</p> }
   @else if (!pedidos().length && !erro()) { <p class="g-card g-nota">Você ainda não fez nenhum pedido.</p> }
   @for (pedido of pedidos(); track pedido.id) {
-    @if (veioDoCheckout && pedido.id === confirmado && pedido.status === 'CONFIRMADO') {
+    @if (pedido.status === 'CONFIRMADO' && ((veioDoCheckout && pedido.id === confirmado) || pagamentoConfirmado() === pedido.id)) {
       <p class="g-sucesso" role="status">Pedido #{{ pedido.id }} confirmado. Seus ingressos estão abaixo.</p>
     }
     <article class="g-card g-pilha">
       <div class="g-flex g-entre">
         <h3>Pedido #{{ pedido.id }}</h3>
-        <span class="g-tag">{{ pedido.status === 'CONFIRMADO' ? 'Confirmado' : 'Cancelado' }}</span>
+        <span class="g-tag">{{ pedido.status === 'CONFIRMADO' ? 'Confirmado' : pedido.status === 'PENDENTE_PAGAMENTO' ? 'Aguardando pagamento' : 'Cancelado' }}</span>
       </div>
       <p class="g-nota">{{ pedido.dataPedido | date:'dd/MM/yyyy • HH:mm' }} · {{ moeda(pedido.valorTotal) }}</p>
-      <details [open]="pedido.id === confirmado">
-        <summary>Ver ingressos</summary>
-        <ul class="g-lista">
-          @for (item of pedido.itens; track item.id) {
-            <li><strong>{{ tipos().get(item.idTipoIngresso) || 'Ingresso' }}</strong> · {{ item.quantidade }} × {{ moeda(item.precoUnitario) }}
-              <ul class="g-lista">
-                @for (ingresso of item.ingressos; track ingresso.id) {
-                  <li><span class="g-codigo">{{ ingresso.codigoQr }}</span> · {{ ingresso.status === 'VALIDO' ? 'Válido' : ingresso.status === 'UTILIZADO' ? 'Utilizado' : 'Cancelado' }}</li>
-                }
-              </ul>
-            </li>
+      @if (pedido.status === 'PENDENTE_PAGAMENTO') {
+        <div class="g-flex">
+          @if (pedido.urlPagamento) {
+            <a class="g-acao" [href]="pedido.urlPagamento" target="_blank" rel="noopener noreferrer"
+              (click)="acompanharPagamento(pedido.id)">Pagar com Mercado Pago</a>
           }
-        </ul>
-      </details>
+          <button class="g-acao g-secundario" type="button" [disabled]="sincronizando() !== null" (click)="sincronizar(pedido)">
+            {{ sincronizando() === pedido.id ? 'Consultando…' : pedido.urlPagamento ? 'Consultar pagamento' : 'Gerar link de pagamento' }}
+          </button>
+        </div>
+        @if (pedido.urlPagamento) {
+          <p class="g-nota">O checkout abre em outra aba. Ao voltar, vamos conferir o pagamento automaticamente.</p>
+        }
+      } @else {
+        <details [open]="pedido.id === confirmado || pedido.id === pagamentoConfirmado()">
+          <summary>Ver ingressos</summary>
+          <ul class="g-lista">
+            @for (item of pedido.itens; track item.id) {
+              <li><strong>{{ tipos().get(item.idTipoIngresso) || 'Ingresso' }}</strong> · {{ item.quantidade }} × {{ moeda(item.precoUnitario) }}
+                <ul class="g-lista">
+                  @for (ingresso of item.ingressos; track ingresso.id) {
+                    <li><span class="g-codigo">{{ ingresso.codigoQr }}</span> · {{ ingresso.status === 'VALIDO' ? 'Válido' : ingresso.status === 'UTILIZADO' ? 'Utilizado' : 'Cancelado' }}</li>
+                  }
+                </ul>
+              </li>
+            }
+          </ul>
+        </details>
+      }
       @if (podeCancelar(pedido)) {
         <div><button class="g-acao g-secundario" type="button" [disabled]="cancelando() !== null" (click)="cancelar(pedido)">Cancelar pedido</button></div>
       }

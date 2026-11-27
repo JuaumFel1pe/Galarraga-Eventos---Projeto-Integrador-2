@@ -18,8 +18,17 @@
             min="1" [max]="limite()" step="1" required [disabled]="enviando()">
         </label>
         <p class="g-flex g-entre"><strong>Total estimado</strong><strong>{{ moeda((tipo()?.preco ?? 0) * (quantidade() ?? 0)) }}</strong></p>
-        <p class="g-nota"><strong>Pagamento simulado.</strong> O valor final e a disponibilidade serão conferidos pela API ao confirmar.</p>
-        <button class="g-acao" [disabled]="enviando() || !quantidadeValida()">{{ enviando() ? 'Confirmando…' : 'Confirmar compra simulada' }}</button>
+        @if (pagamento(); as config) {
+          @if (config.modoTeste) {
+            <p class="g-nota">Mercado Pago em ambiente de teste. O pedido fica pendente até a API conferir o pagamento.</p>
+            @if (!config.configurado) { <p class="g-alerta" role="alert">Configure o token de teste na API.</p> }
+          } @else {
+            <p class="g-nota"><strong>Pagamento simulado.</strong> O valor final e a disponibilidade serão conferidos pela API.</p>
+          }
+          <button class="g-acao" [disabled]="enviando() || !quantidadeValida() || (config.modoTeste && !config.configurado)">
+            {{ enviando() ? 'Processando…' : config.modoTeste ? 'Preparar checkout Mercado Pago' : 'Confirmar compra simulada' }}
+          </button>
+        }
       } @else { <p class="g-nota">Os ingressos disponíveis acabaram.</p> }
     </form>
   }

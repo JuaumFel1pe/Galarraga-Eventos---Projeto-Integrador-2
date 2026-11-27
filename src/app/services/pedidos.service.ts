@@ -25,6 +25,18 @@ export class PedidosService {
   cancelar(id: number): Observable<Pedido> {
     return this.http.patch<Pedido>(`${this.api}/${id}/cancelar`, null);
   }
+
+  configuracaoPagamento() {
+    return this.http.get<{ modoTeste: boolean; configurado: boolean }>('/api/pagamentos/mercado-pago/configuracao');
+  }
+
+  reservar(itens: SelecaoIngresso[], chave: string): Observable<Pedido> {
+    return this.http.post<Pedido>('/api/pagamentos/mercado-pago', { itens, chave });
+  }
+
+  sincronizarPagamento(id: number): Observable<Pedido> {
+    return this.http.post<Pedido>(`/api/pagamentos/mercado-pago/${id}/sincronizar`, null);
+  }
 }
 
 export interface SelecaoIngresso {
@@ -53,6 +65,8 @@ export interface Pedido {
   idUsuario: number;
   dataPedido: string;
   valorTotal: number;
-  status: 'CONFIRMADO' | 'CANCELADO';
+  status: 'CONFIRMADO' | 'CANCELADO' | 'PENDENTE_PAGAMENTO';
   itens: ItemPedido[];
+  mercadoPago: boolean;
+  urlPagamento: string | null;
 }

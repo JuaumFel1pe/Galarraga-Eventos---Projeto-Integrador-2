@@ -1,7 +1,7 @@
 .login {
-    background-image: url(/public/GALARRAGA_EVENTOS_PI.png);
-    background-size: cover;
-    background-position: center;
+    position: relative;
+    isolation: isolate;
+    background-color: #000;
     min-height: 100vh; 
     display: flex;
     align-items: center;
@@ -9,10 +9,21 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+.login::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: url('/restaurantegalarraga.jpeg') center / cover;
+    filter: var(--filtro-foto-evento, saturate(0.65) contrast(0.84));
+    opacity: 0.3;
+    pointer-events: none;
+}
+
 .login-card {
-    background-color: #EBEBEB;
+    background-color: #EBEBEB; /* Cinza claro do fundo do card */
     padding: 40px 50px;
-    border-radius: 25px;
+    border-radius: 25px; /* Bordas bem arredondadas */
     width: 100%;
     max-width: 450px;
     text-align: center;
@@ -21,7 +32,7 @@
 }
 
 h1 {
-    color: #BD82E0;
+    color: #BD82E0; /* Roxo suave do título */
     font-size: 22px;
     margin-bottom: 30px;
     font-weight: 500;
@@ -34,7 +45,7 @@ input {
     border: 1px solid #CCC;
     border-radius: 8px;
     background-color: #F2F2F2;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Garante que o padding não quebre a largura */
     outline: none;
 }
 
@@ -45,8 +56,8 @@ input::placeholder {
 .btn-continuar {
     width: 100%;
     padding: 15px;
-    background-color: #E4D5EE;
-    border: 2px solid #BD82E0;
+    background-color: #E4D5EE; /* Lilás bem clarinho */
+    border: 2px solid #BD82E0; /* Borda roxa */
     border-radius: 12px;
     color: #9D64C4;
     font-weight: bold;
@@ -71,7 +82,7 @@ input::placeholder {
 }
 
 .footer-text a {
-    color: #5D9CEC;
+    color: #5D9CEC; /* Azul do link 'Registre-se' */
     text-decoration: none;
     font-weight: 500;
 }
@@ -79,3 +90,10 @@ input::placeholder {
 .error-msg{
     color: red;
 }
+
+.login { padding: 1rem; }
+.login-card { padding: clamp(1.3rem, 6vw, 3.1rem); }
+.login-card label { display: block; text-align: left; }
+.login-card h1, .btn-continuar { color: #662980; }
+.footer-text a { color: #3448a0; }
+.btn-continuar:disabled { opacity: .65; cursor: wait; }

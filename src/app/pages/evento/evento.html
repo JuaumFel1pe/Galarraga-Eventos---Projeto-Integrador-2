@@ -1,41 +1,48 @@
 <app-cabecalho />
-<main class="g-container">
-  <a class="g-link" routerLink="/" fragment="eventos">← Todos os eventos</a>
+<main class="event-page">
   @if (estado | async; as resultado) {
-    @if (resultado.carregando) { <p class="g-nota" role="status">Carregando evento…</p> }
-    @if (resultado.erro) { <p class="g-alerta" role="alert">{{ resultado.erro }}</p> }
+    @if (resultado.carregando) { <p class="g-container" role="status">Carregando evento…</p> }
+    @if (resultado.erro) { <p class="g-container g-alerta" role="alert">{{ resultado.erro }}</p> }
     @if (resultado.dados; as dados) {
-      <h1 class="g-titulo">{{ dados.evento.titulo }}</h1>
-      <div class="g-duas">
-        <article class="g-card g-pilha">
-          <img class="banner" [src]="dados.evento.bannerUrl || imagemPadrao" alt="" (error)="$event.target.src = imagemPadrao">
-          <div class="g-flex">
-            @if (dados.categoria) { <span class="g-tag">{{ dados.categoria.nome }}</span> }
-            <span>{{ dados.evento.dataInicio | date:'dd/MM/yyyy • HH:mm' }}</span>
+      <header class="event-header">
+        <div class="header-info">
+          <a class="voltar" routerLink="/" fragment="eventos">← Todos os eventos</a>
+          <h1>{{ dados.evento.titulo }}</h1>
+          <ul class="event-details">
+            <li>{{ dados.evento.dataInicio | date:'dd/MM/yyyy HH:mm' }}</li>
+            @if (dados.local; as local) {
+              <li>{{ local.nome }} · {{ local.endereco }}, {{ local.cidade }} - {{ local.estado }}</li>
+            }
+            @if (dados.categoria) { <li>{{ dados.categoria.nome }}</li> }
+          </ul>
+        </div>
+        <div class="header-image">
+          <img [src]="dados.evento.bannerUrl || imagemPadrao" alt="" (error)="$event.target.src = imagemPadrao">
+        </div>
+      </header>
+      <div class="event-content">
+        <section class="description">
+          <h2>Descrição do evento</h2>
+          <p>{{ dados.evento.descricao || 'Descrição indisponível.' }}</p>
+        </section>
+        <aside class="ticket-sidebar">
+          <div class="ticket-card">
+            <img src="/ticket.png" alt="">
+            <h2>Ingressos</h2>
+            @if (aberto(dados.evento)) {
+              <ul class="g-lista">
+                @for (tipo of dados.tipos; track tipo.id) {
+                  <li>
+                    <strong>{{ tipo.nome }} · {{ moeda(tipo.preco) }}</strong>
+                    @if (tipo.quantidadeDisponivel > 0) {
+                      <a class="btn-buy" [routerLink]="['/checkout', dados.evento.id]"
+                        [queryParams]="{ tipo: tipo.id }">Comprar ingresso</a>
+                    } @else { <p>Esgotado</p> }
+                  </li>
+                } @empty { <li>Nenhum ingresso disponível.</li> }
+              </ul>
+            } @else { <p>Venda indisponível para este evento.</p> }
           </div>
-          @if (dados.local; as local) {
-            <p><strong>{{ local.nome }}</strong> · {{ local.endereco }}, {{ local.cidade }} - {{ local.estado }}</p>
-          }
-          @if (dados.evento.descricao) {
-            <h2>Sobre o evento</h2>
-            <p class="g-nota descricao">{{ dados.evento.descricao }}</p>
-          }
-        </article>
-        <aside class="g-card g-pilha">
-          <h2>Ingressos</h2>
-          @if (aberto(dados.evento)) {
-            <ul class="g-lista">
-              @for (tipo of dados.tipos; track tipo.id) {
-                <li class="g-flex g-entre">
-                  <div><strong>{{ tipo.nome }}</strong><p>{{ moeda(tipo.preco) }}</p>
-                    <small>{{ tipo.quantidadeDisponivel }} disponíveis</small></div>
-                  @if (tipo.quantidadeDisponivel > 0) {
-                    <a class="g-acao" [routerLink]="['/checkout', dados.evento.id]" [queryParams]="{ tipo: tipo.id }">Selecionar</a>
-                  } @else { <span class="g-tag">Esgotado</span> }
-                </li>
-              } @empty { <li>Nenhum ingresso disponível.</li> }
-            </ul>
-          } @else { <p class="g-nota">Venda indisponível para este evento.</p> }
         </aside>
       </div>
     }

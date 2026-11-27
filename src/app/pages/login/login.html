@@ -1,16 +1,19 @@
 <app-cabecalho />
-<main class="g-container g-estreito">
-  <form class="g-card g-pilha" [formGroup]="formulario" (ngSubmit)="entrar()">
-    <h1 class="g-titulo">Entrar</h1>
-    @if (mensagemErro()) { <p role="alert" class="g-alerta">{{ mensagemErro() }}</p> }
-    <label class="g-campo">E-mail
-      <input type="email" formControlName="email" autocomplete="username" maxlength="150">
+<main class="login">
+  <form class="login-card" [formGroup]="formulario" (ngSubmit)="entrar()">
+    <h1>Entre na sua conta</h1>
+    @if (mensagemErro()) {
+      <p role="alert" class="error-msg">{{ mensagemErro() }}</p>
+    }
+    <label>E-mail
+      <input type="email" formControlName="email" autocomplete="username" maxlength="150" placeholder="Informe seu e-mail">
     </label>
-    <label class="g-campo">Senha
-      <input type="password" formControlName="senha" autocomplete="current-password" maxlength="72">
+    <label>Senha
+      <input type="password" formControlName="senha" autocomplete="current-password" maxlength="72" placeholder="Informe sua senha">
     </label>
-    <button class="g-acao" [disabled]="enviando()">{{ enviando() ? 'Entrando…' : 'Entrar' }}</button>
-    <p class="g-nota">Primeira vez aqui? <a class="g-link" routerLink="/cadastro" queryParamsHandling="preserve">Crie sua conta</a>.</p>
+    <button class="btn-continuar" [disabled]="enviando()">{{ enviando() ? 'Entrando…' : 'Continuar' }}</button>
+    <div id="separator" aria-hidden="true"></div>
+    <p class="footer-text">Não possui uma conta? <a routerLink="/cadastro" queryParamsHandling="preserve">Registre-se</a></p>
   </form>
 </main>
 <app-rodape />
